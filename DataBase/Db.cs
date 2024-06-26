@@ -70,5 +70,35 @@ namespace deposit_app.DataBase
                 return clients;
             }
         }
+
+        public static List<TransactionHistory> GetTransactionHistories()
+        {
+            var transactionHistories = new List<TransactionHistory>();
+			using (var connection = new NpgsqlConnection(connectionString))
+            {
+                using (var cmd = new NpgsqlCommand("select * from transaction_history", connection))
+                {
+                    connection.Open();
+                    NpgsqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        transactionHistories.Add(
+                            new TransactionHistory
+                            {
+                                Id = (Guid)reader["Id"],
+                                DepositId = (Guid)reader["deposit_id"],
+                                TransactionType = (Guid)reader["type"],
+                                DateTime = (DateTime)reader["datetime"],
+                                Amount = (decimal)reader["amount"],
+                                AmountBefore = (decimal)reader["amount_before"],
+                                AmountAfter = (decimal)reader["amount_after"]
+                            }
+                        );
+
+                    }
+                }
+			}
+			return transactionHistories;
+		}
     }
 }
