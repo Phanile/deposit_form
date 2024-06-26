@@ -21,4 +21,8 @@
     <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="8.0.3" />
+  </ItemGroup>
+
 </Project>
