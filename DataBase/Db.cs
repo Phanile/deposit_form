@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
+using System.Data;
 using deposit_app.Entities;
 using Npgsql;
-using NpgsqlTypes;
-
 
 namespace deposit_app.DataBase
 {
@@ -16,7 +9,7 @@ namespace deposit_app.DataBase
     internal class Db
     {
         static string connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
-      
+
         public static NpgsqlConnection Connect()
         {
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
@@ -38,7 +31,6 @@ namespace deposit_app.DataBase
             {
                 string query = "SELECT * FROM clients";
                 NpgsqlCommand queryCommand = new NpgsqlCommand(query, connection);
-
                 try
                 {
                     connection.Open();
@@ -61,13 +53,56 @@ namespace deposit_app.DataBase
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
+                    MessageBox.Show($"Ошибка: {ex.Message}");
                 }
                 finally
                 {
                     connection.Close();
                 }
                 return clients;
+            }
+        }
+
+        public static List<Deposit> GetDepositsByClientPassportData(string passportData)
+        {
+            var clientDeposits = new List<Deposit>();
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand("SELECT * FROM get_deposit_details(@passport_data)", connection))
+                {
+                    command.Parameters.AddWithValue("passport_data", passportData);
+                    try
+                    {
+                        connection.Open();
+                        NpgsqlDataReader reader = command.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var deposit = new Deposit();
+                            deposit.id = reader.GetGuid(0);
+                            deposit.client_id = reader.GetGuid(1);
+                            deposit.deposit_type = reader.GetString(2);
+                            deposit.currency = reader.GetString(3);
+                            deposit.status = reader.GetString(4);
+                            deposit.personal_account = reader.GetString(5);
+                            deposit.initial_balance = reader.GetDecimal(6);
+                            deposit.curr_balance = reader.GetDecimal(7);
+                            deposit.open_date = reader.GetDateTime(8);
+                            deposit.timeframe = reader.GetInt16(10);
+                            deposit.close_date = reader.IsDBNull(9) ? deposit.open_date.AddDays(deposit.timeframe) : reader.GetDateTime(9);
+                            clientDeposits.Add(deposit);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                    return clientDeposits;
+                }
+
             }
         }
     }

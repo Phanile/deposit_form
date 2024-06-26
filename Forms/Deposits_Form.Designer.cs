@@ -28,148 +28,156 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.ViewDepositsButton = new System.Windows.Forms.Button();
-            this.AddDepositButton = new System.Windows.Forms.Button();
-            this.DepositHistoryButton = new System.Windows.Forms.Button();
-            this.DeleteDeposit = new System.Windows.Forms.Button();
-            this.clientsDataGridView = new System.Windows.Forms.DataGridView();
-            this.clientDepositsDataGridView = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.clientsDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.clientDepositsDataGridView)).BeginInit();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            label1 = new Label();
+            ViewDepositsButton = new Button();
+            AddDepositButton = new Button();
+            DepositHistoryButton = new Button();
+            DeleteDeposit = new Button();
+            clientsDataGridView = new DataGridView();
+            clientDepositsDataGridView = new DataGridView();
+            panel1 = new Panel();
+            label2 = new Label();
+            label3 = new Label();
+            ((System.ComponentModel.ISupportInitialize)clientsDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).BeginInit();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(293, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(410, 32);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "АИС \"Учет вкладов в банке\"";
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            label1.Location = new Point(293, 11);
+            label1.Name = "label1";
+            label1.Size = new Size(410, 32);
+            label1.TabIndex = 0;
+            label1.Text = "АИС \"Учет вкладов в банке\"";
             // 
             // ViewDepositsButton
             // 
-            this.ViewDepositsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ViewDepositsButton.Location = new System.Drawing.Point(12, 74);
-            this.ViewDepositsButton.Name = "ViewDepositsButton";
-            this.ViewDepositsButton.Size = new System.Drawing.Size(189, 71);
-            this.ViewDepositsButton.TabIndex = 1;
-            this.ViewDepositsButton.Text = "Показать вклады";
-            this.ViewDepositsButton.UseVisualStyleBackColor = true;
-            this.ViewDepositsButton.Click += new System.EventHandler(this.ViewDepositsButton_Click);
+            ViewDepositsButton.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            ViewDepositsButton.Location = new Point(12, 75);
+            ViewDepositsButton.Margin = new Padding(3, 4, 3, 4);
+            ViewDepositsButton.Name = "ViewDepositsButton";
+            ViewDepositsButton.Size = new Size(189, 89);
+            ViewDepositsButton.TabIndex = 1;
+            ViewDepositsButton.Text = "Показать вклады";
+            ViewDepositsButton.UseVisualStyleBackColor = true;
+            ViewDepositsButton.Click += ViewDepositsButton_Click;
             // 
             // AddDepositButton
             // 
-            this.AddDepositButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.AddDepositButton.Location = new System.Drawing.Point(265, 74);
-            this.AddDepositButton.Name = "AddDepositButton";
-            this.AddDepositButton.Size = new System.Drawing.Size(189, 71);
-            this.AddDepositButton.TabIndex = 2;
-            this.AddDepositButton.Text = "Добавить вклад";
-            this.AddDepositButton.UseVisualStyleBackColor = true;
-            this.AddDepositButton.Click += new System.EventHandler(this.AddDepositButton_Click);
+            AddDepositButton.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            AddDepositButton.Location = new Point(265, 75);
+            AddDepositButton.Margin = new Padding(3, 4, 3, 4);
+            AddDepositButton.Name = "AddDepositButton";
+            AddDepositButton.Size = new Size(189, 89);
+            AddDepositButton.TabIndex = 2;
+            AddDepositButton.Text = "Добавить вклад";
+            AddDepositButton.UseVisualStyleBackColor = true;
+            AddDepositButton.Click += AddDepositButton_Click;
             // 
             // DepositHistoryButton
             // 
-            this.DepositHistoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DepositHistoryButton.Location = new System.Drawing.Point(529, 74);
-            this.DepositHistoryButton.Name = "DepositHistoryButton";
-            this.DepositHistoryButton.Size = new System.Drawing.Size(189, 71);
-            this.DepositHistoryButton.TabIndex = 3;
-            this.DepositHistoryButton.Text = "История вклада";
-            this.DepositHistoryButton.UseVisualStyleBackColor = true;
-            this.DepositHistoryButton.Click += new System.EventHandler(this.DepositHistoryButton_Click);
+            DepositHistoryButton.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            DepositHistoryButton.Location = new Point(529, 75);
+            DepositHistoryButton.Margin = new Padding(3, 4, 3, 4);
+            DepositHistoryButton.Name = "DepositHistoryButton";
+            DepositHistoryButton.Size = new Size(189, 89);
+            DepositHistoryButton.TabIndex = 3;
+            DepositHistoryButton.Text = "История вклада";
+            DepositHistoryButton.UseVisualStyleBackColor = true;
+            DepositHistoryButton.Click += DepositHistoryButton_Click;
             // 
             // DeleteDeposit
             // 
-            this.DeleteDeposit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.DeleteDeposit.Location = new System.Drawing.Point(781, 74);
-            this.DeleteDeposit.Name = "DeleteDeposit";
-            this.DeleteDeposit.Size = new System.Drawing.Size(189, 71);
-            this.DeleteDeposit.TabIndex = 4;
-            this.DeleteDeposit.Text = "Удалить вклад";
-            this.DeleteDeposit.UseVisualStyleBackColor = true;
-            this.DeleteDeposit.Click += new System.EventHandler(this.DeleteDeposit_Click);
+            DeleteDeposit.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            DeleteDeposit.Location = new Point(781, 75);
+            DeleteDeposit.Margin = new Padding(3, 4, 3, 4);
+            DeleteDeposit.Name = "DeleteDeposit";
+            DeleteDeposit.Size = new Size(189, 89);
+            DeleteDeposit.TabIndex = 4;
+            DeleteDeposit.Text = "Удалить вклад";
+            DeleteDeposit.UseVisualStyleBackColor = true;
+            DeleteDeposit.Click += DeleteDeposit_Click;
             // 
             // clientsDataGridView
             // 
-            this.clientsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientsDataGridView.Location = new System.Drawing.Point(265, 185);
-            this.clientsDataGridView.Name = "clientsDataGridView";
-            this.clientsDataGridView.RowHeadersWidth = 51;
-            this.clientsDataGridView.RowTemplate.Height = 24;
-            this.clientsDataGridView.Size = new System.Drawing.Size(705, 356);
-            this.clientsDataGridView.TabIndex = 5;
+            clientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            clientsDataGridView.Location = new Point(265, 212);
+            clientsDataGridView.Margin = new Padding(3, 4, 3, 4);
+            clientsDataGridView.Name = "clientsDataGridView";
+            clientsDataGridView.RowHeadersWidth = 51;
+            clientsDataGridView.RowTemplate.Height = 24;
+            clientsDataGridView.Size = new Size(705, 466);
+            clientsDataGridView.TabIndex = 5;
+            clientsDataGridView.CellMouseClick += clientsDataGridView_CellMouseClick;
             // 
             // clientDepositsDataGridView
             // 
-            this.clientDepositsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.clientDepositsDataGridView.Location = new System.Drawing.Point(12, 185);
-            this.clientDepositsDataGridView.Name = "clientDepositsDataGridView";
-            this.clientDepositsDataGridView.RowHeadersWidth = 51;
-            this.clientDepositsDataGridView.RowTemplate.Height = 24;
-            this.clientDepositsDataGridView.Size = new System.Drawing.Size(234, 356);
-            this.clientDepositsDataGridView.TabIndex = 6;
+            clientDepositsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            clientDepositsDataGridView.Location = new Point(12, 212);
+            clientDepositsDataGridView.Margin = new Padding(3, 4, 3, 4);
+            clientDepositsDataGridView.Name = "clientDepositsDataGridView";
+            clientDepositsDataGridView.RowHeadersWidth = 51;
+            clientDepositsDataGridView.RowTemplate.Height = 24;
+            clientDepositsDataGridView.Size = new Size(234, 464);
+            clientDepositsDataGridView.TabIndex = 6;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(982, 53);
-            this.panel1.TabIndex = 7;
+            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(982, 57);
+            panel1.TabIndex = 7;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(260, 157);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 25);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Клиенты";
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            label2.Location = new Point(265, 183);
+            label2.Name = "label2";
+            label2.Size = new Size(95, 25);
+            label2.TabIndex = 8;
+            label2.Text = "Клиенты";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(7, 157);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 25);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Вклады клиента";
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            label3.Location = new Point(12, 183);
+            label3.Name = "label3";
+            label3.Size = new Size(164, 25);
+            label3.TabIndex = 9;
+            label3.Text = "Вклады клиента";
             // 
             // Deposits_Form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(982, 553);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.clientDepositsDataGridView);
-            this.Controls.Add(this.clientsDataGridView);
-            this.Controls.Add(this.DeleteDeposit);
-            this.Controls.Add(this.DepositHistoryButton);
-            this.Controls.Add(this.AddDepositButton);
-            this.Controls.Add(this.ViewDepositsButton);
-            this.Name = "Deposits_Form";
-            this.Text = "Deposits_Form";
-            this.Load += new System.EventHandler(this.Deposits_Form_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.clientsDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.clientDepositsDataGridView)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(982, 691);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(panel1);
+            Controls.Add(clientDepositsDataGridView);
+            Controls.Add(clientsDataGridView);
+            Controls.Add(DeleteDeposit);
+            Controls.Add(DepositHistoryButton);
+            Controls.Add(AddDepositButton);
+            Controls.Add(ViewDepositsButton);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "Deposits_Form";
+            Text = "Deposits_Form";
+            Load += Deposits_Form_Load;
+            ((System.ComponentModel.ISupportInitialize)clientsDataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

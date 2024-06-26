@@ -9,8 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Entity\" />
-    <Folder Include="Services\" />
+    <Compile Remove="Data\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Data\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
 </Project>

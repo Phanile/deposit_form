@@ -24,7 +24,11 @@ namespace deposit_app.Forms
 
         private void ViewDepositsButton_Click(object sender, System.EventArgs e)
         {
-
+            var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
+            var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
+            clientDepositsDataGridView.DataSource = clientDeposits;
+            clientDepositsDataGridView.Columns["id"].Visible = false;
+            clientDepositsDataGridView.Columns["client_id"].Visible = false;
         }
 
         private void AddDepositButton_Click(object sender, System.EventArgs e)
@@ -39,6 +43,12 @@ namespace deposit_app.Forms
 
         private void DeleteDeposit_Click(object sender, System.EventArgs e)
         {
+
+        }
+
+        private void clientsDataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
 
         }
     }
