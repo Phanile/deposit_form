@@ -126,7 +126,6 @@
 			// 
 			panel1.BackColor = SystemColors.ActiveCaption;
 			panel1.Controls.Add(label1);
-			panel1.Controls.Add(panel2);
 			panel1.Location = new Point(0, 0);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(859, 50);
@@ -136,9 +135,9 @@
 			// 
 			panel2.Controls.Add(button_back_from_transaction_history);
 			panel2.Controls.Add(transactionHistoryGridView);
-			panel2.Location = new Point(0, 46);
+			panel2.Location = new Point(0, 0);
 			panel2.Name = "panel2";
-			panel2.Size = new Size(856, 472);
+			panel2.Size = new Size(859, 520);
 			panel2.TabIndex = 20;
 			panel2.Visible = false;
 			// 
@@ -185,6 +184,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(859, 518);
+			Controls.Add(panel2);
 			Controls.Add(label3);
 			Controls.Add(label2);
 			Controls.Add(panel1);

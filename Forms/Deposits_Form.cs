@@ -32,7 +32,7 @@ namespace deposit_app.Forms
 			form.Show();
 		}
 
-		private async void DepositHistoryButton_Click(object sender, System.EventArgs e)
+		private void DepositHistoryButton_Click(object sender, System.EventArgs e)
 		{
 			panel2.Visible = true;
 			var histories = Db.GetTransactionHistories();
