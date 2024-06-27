@@ -36,11 +36,11 @@
 			clientsDataGridView = new DataGridView();
 			clientDepositsDataGridView = new DataGridView();
 			panel1 = new Panel();
+			panel2 = new Panel();
+			button_back_from_transaction_history = new Button();
+			transactionHistoryGridView = new DataGridView();
 			label2 = new Label();
 			label3 = new Label();
-			panel2 = new Panel();
-			transactionHistoryGridView = new DataGridView();
-			button_back_from_transaction_history = new Button();
 			((System.ComponentModel.ISupportInitialize)clientsDataGridView).BeginInit();
 			((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).BeginInit();
 			panel1.SuspendLayout();
@@ -126,10 +126,39 @@
 			// 
 			panel1.BackColor = SystemColors.ActiveCaption;
 			panel1.Controls.Add(label1);
+			panel1.Controls.Add(panel2);
 			panel1.Location = new Point(0, 0);
 			panel1.Name = "panel1";
 			panel1.Size = new Size(859, 50);
 			panel1.TabIndex = 7;
+			// 
+			// panel2
+			// 
+			panel2.Controls.Add(button_back_from_transaction_history);
+			panel2.Controls.Add(transactionHistoryGridView);
+			panel2.Location = new Point(0, 46);
+			panel2.Name = "panel2";
+			panel2.Size = new Size(856, 472);
+			panel2.TabIndex = 20;
+			panel2.Visible = false;
+			// 
+			// button_back_from_transaction_history
+			// 
+			button_back_from_transaction_history.Location = new Point(51, 64);
+			button_back_from_transaction_history.Name = "button_back_from_transaction_history";
+			button_back_from_transaction_history.Size = new Size(197, 103);
+			button_back_from_transaction_history.TabIndex = 1;
+			button_back_from_transaction_history.Text = "Назад в меню";
+			button_back_from_transaction_history.UseVisualStyleBackColor = true;
+			button_back_from_transaction_history.Click += button_back_from_transaction_history_Click;
+			// 
+			// transactionHistoryGridView
+			// 
+			transactionHistoryGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			transactionHistoryGridView.Location = new Point(378, 108);
+			transactionHistoryGridView.Name = "transactionHistoryGridView";
+			transactionHistoryGridView.Size = new Size(428, 244);
+			transactionHistoryGridView.TabIndex = 0;
 			// 
 			// label2
 			// 
@@ -151,40 +180,11 @@
 			label3.TabIndex = 9;
 			label3.Text = "Вклады клиента";
 			// 
-			// panel2
-			// 
-			panel2.Controls.Add(button_back_from_transaction_history);
-			panel2.Controls.Add(transactionHistoryGridView);
-			panel2.Location = new Point(0, 0);
-			panel2.Name = "panel2";
-			panel2.Size = new Size(849, 507);
-			panel2.TabIndex = 20;
-			panel2.Visible = false;
-			// 
-			// transactionHistoryGridView
-			// 
-			transactionHistoryGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			transactionHistoryGridView.Location = new Point(378, 108);
-			transactionHistoryGridView.Name = "transactionHistoryGridView";
-			transactionHistoryGridView.Size = new Size(428, 244);
-			transactionHistoryGridView.TabIndex = 0;
-			// 
-			// button_back_from_transaction_history
-			// 
-			button_back_from_transaction_history.Location = new Point(51, 64);
-			button_back_from_transaction_history.Name = "button_back_from_transaction_history";
-			button_back_from_transaction_history.Size = new Size(197, 103);
-			button_back_from_transaction_history.TabIndex = 1;
-			button_back_from_transaction_history.Text = "Назад в меню";
-			button_back_from_transaction_history.UseVisualStyleBackColor = true;
-			button_back_from_transaction_history.Click += button_back_from_transaction_history_Click;
-			// 
 			// Deposits_Form
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(859, 518);
-			Controls.Add(panel2);
 			Controls.Add(label3);
 			Controls.Add(label2);
 			Controls.Add(panel1);

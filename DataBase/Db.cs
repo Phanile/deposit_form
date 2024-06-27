@@ -2,6 +2,7 @@
 using System.Data;
 using deposit_app.Entities;
 using Npgsql;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
@@ -134,5 +135,40 @@ namespace deposit_app.DataBase
 			}
 			return transactionHistories;
 		}
+        public static void AddDeposit(string email, string depositType, string currency, string status, string personalAccount, decimal initialBalance, decimal currBalance, DateTime openDate, DateTime closeDate, short timeframe)
+        {
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                using (var command = new NpgsqlCommand("CALL insert_deposit(@mail::varchar, @deposit_type_name::varchar, @currency_name::varchar, @status_info::varchar, @_personal_account::varchar, @_initial_balance::decimal(9,2), @_curr_balance::decimal(9,2), @_open_date::date, @_close_date::date, @_timeframe::smallint)", connection))
+                {
+                    command.Parameters.AddWithValue("mail", email);
+                    command.Parameters.AddWithValue("deposit_type_name", depositType);
+                    command.Parameters.AddWithValue("currency_name", currency);
+                    command.Parameters.AddWithValue("status_info", "Открыт"); 
+                    command.Parameters.AddWithValue("_personal_account", personalAccount);
+                    command.Parameters.AddWithValue("_initial_balance", initialBalance);
+                    command.Parameters.AddWithValue("_curr_balance", currBalance);
+                    command.Parameters.AddWithValue("_open_date", openDate);
+                    command.Parameters.AddWithValue("_close_date", closeDate);
+                    command.Parameters.AddWithValue("_timeframe", timeframe);
+
+                    try
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Депозит успешно добавлен");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+
+            }
+        }
     }
 }
