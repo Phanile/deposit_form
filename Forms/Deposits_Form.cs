@@ -1,14 +1,9 @@
-﻿using System.Configuration;
-using System.Windows.Forms;
-using deposit_app.DataBase;
-using Npgsql;
+﻿using deposit_app.DataBase;
 
 namespace deposit_app.Forms
 {
 	public partial class Deposits_Form : Form
 	{
-		static string connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
-
 		public Deposits_Form()
 		{
 			InitializeComponent();
