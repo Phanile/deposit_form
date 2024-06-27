@@ -16,15 +16,25 @@ namespace deposit_app.Forms
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
 		{
-			var clients = Db.GetClients();
+			clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            var clients = Db.GetClients();
 			clientsDataGridView.DataSource = clients;
 			clientsDataGridView.Columns["id"].Visible = false;
 			clientsDataGridView.Columns["password"].Visible = false;
+			
 		}
 
 		private void ViewDepositsButton_Click(object sender, System.EventArgs e)
 		{
-			var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
+			if (clientsDataGridView.CurrentRow == null)
+			{
+				MessageBox.Show("Ошибка! Выберите любое поле клиента в таблице \"Клиенты\"");
+				return;
+			}
+			
+            var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
 			var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
 			clientDepositsDataGridView.DataSource = clientDeposits;
 			clientDepositsDataGridView.Columns["id"].Visible = false;
