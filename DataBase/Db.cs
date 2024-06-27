@@ -1,34 +1,18 @@
 ﻿using System.Configuration;
-using System.Data;
 using deposit_app.Entities;
 using Npgsql;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
 
-    internal class Db
+	internal class Db
     {
-        static string connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
-
-        public static NpgsqlConnection Connect()
-        {
-            NpgsqlConnection connection = new NpgsqlConnection(connectionString);
-            try
-            {
-                connection.Open();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Ошибка подключение к БД", ex);
-            }
-            return connection;
-        }
+        private static string _connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
 
         public static List<Client> GetClients()
         {
             var clients = new List<Client>();
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 string query = "SELECT * FROM clients";
                 NpgsqlCommand queryCommand = new NpgsqlCommand(query, connection);
@@ -67,7 +51,7 @@ namespace deposit_app.DataBase
         public static List<Deposit> GetDepositsByClientPassportData(string passportData)
         {
             var clientDeposits = new List<Deposit>();
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 using (var command = new NpgsqlCommand("SELECT * FROM get_deposit_details(@passport_data)", connection))
                 {
@@ -109,7 +93,7 @@ namespace deposit_app.DataBase
         public static List<TransactionHistory> GetTransactionHistories()
         {
             var transactionHistories = new List<TransactionHistory>();
-			using (var connection = new NpgsqlConnection(connectionString))
+			using (var connection = new NpgsqlConnection(_connectionString))
             {
                 using (var cmd = new NpgsqlCommand("select * from transaction_history", connection))
                 {
@@ -137,7 +121,7 @@ namespace deposit_app.DataBase
 		}
 		/*public static void AddDeposit(string email, string depositType, string currency, string status, string personalAccount, decimal initialBalance, decimal currBalance, DateTime openDate, DBNull closeDate, short timeframe)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            using (var connection = new NpgsqlConnection(_connectionString))
             {
                 using (var command = new NpgsqlCommand("CALL insert_deposit(@mail::varchar, @deposit_type_name::varchar, @currency_name::varchar, @status_info::varchar, @_personal_account::varchar, @_initial_balance::decimal(9,2), @_curr_balance::decimal(9,2), @_open_date::date, @_close_date::date, @_timeframe::smallint)", connection))
                 {
