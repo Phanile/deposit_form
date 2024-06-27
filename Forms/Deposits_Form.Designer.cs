@@ -32,7 +32,7 @@
             ViewDepositsButton = new Button();
             AddDepositButton = new Button();
             DepositHistoryButton = new Button();
-            DeleteDeposit = new Button();
+            CloseDeposit = new Button();
             clientsDataGridView = new DataGridView();
             clientDepositsDataGridView = new DataGridView();
             panel1 = new Panel();
@@ -94,17 +94,17 @@
             DepositHistoryButton.UseVisualStyleBackColor = true;
             DepositHistoryButton.Click += DepositHistoryButton_Click;
             // 
-            // DeleteDeposit
+            // CloseDeposit
             // 
-            DeleteDeposit.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-            DeleteDeposit.Location = new Point(780, 75);
-            DeleteDeposit.Margin = new Padding(3, 4, 3, 4);
-            DeleteDeposit.Name = "DeleteDeposit";
-            DeleteDeposit.Size = new Size(189, 89);
-            DeleteDeposit.TabIndex = 4;
-            DeleteDeposit.Text = "Удалить вклад";
-            DeleteDeposit.UseVisualStyleBackColor = true;
-            DeleteDeposit.Click += DeleteDeposit_Click;
+            CloseDeposit.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+            CloseDeposit.Location = new Point(780, 75);
+            CloseDeposit.Margin = new Padding(3, 4, 3, 4);
+            CloseDeposit.Name = "CloseDeposit";
+            CloseDeposit.Size = new Size(189, 89);
+            CloseDeposit.TabIndex = 4;
+            CloseDeposit.Text = "Закрыть вклад";
+            CloseDeposit.UseVisualStyleBackColor = true;
+            CloseDeposit.Click += CloseDeposit_Click;
             // 
             // clientsDataGridView
             // 
@@ -127,6 +127,7 @@
             clientDepositsDataGridView.RowTemplate.Height = 24;
             clientDepositsDataGridView.Size = new Size(959, 177);
             clientDepositsDataGridView.TabIndex = 6;
+            clientDepositsDataGridView.CellMouseClick += clientDepositsDataGridView_CellMouseClick;
             // 
             // panel1
             // 
@@ -195,16 +196,16 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 691);
-            Controls.Add(panel2);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(panel1);
             Controls.Add(clientDepositsDataGridView);
             Controls.Add(clientsDataGridView);
-            Controls.Add(DeleteDeposit);
+            Controls.Add(CloseDeposit);
             Controls.Add(DepositHistoryButton);
             Controls.Add(AddDepositButton);
             Controls.Add(ViewDepositsButton);
+            Controls.Add(panel2);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Deposits_Form";
             Text = "Deposits_Form";
@@ -234,5 +235,6 @@
 		private Panel panel2;
 		private DataGridView transactionHistoryGridView;
 		private Button button_back_from_transaction_history;
-	}
+        private Button CloseDeposit;
+    }
 }

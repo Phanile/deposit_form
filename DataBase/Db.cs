@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using deposit_app.Entities;
 using Npgsql;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
@@ -90,6 +91,7 @@ namespace deposit_app.DataBase
 
             }
         }
+        
         public static List<TransactionHistory> GetTransactionHistories()
         {
             var transactionHistories = new List<TransactionHistory>();
@@ -119,6 +121,7 @@ namespace deposit_app.DataBase
 			}
 			return transactionHistories;
 		}
+        
         public static void AddDeposit(string email, string depositType, string currency, string status, string personalAccount, decimal initialBalance, decimal currBalance, DateTime openDate, DateTime closeDate, short timeframe)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -152,6 +155,31 @@ namespace deposit_app.DataBase
                     }
                 }
 
+            }
+        }
+
+        public static void CloseDeposit(string personal_account)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                using (var command = new NpgsqlCommand("CALL close_deposit(@_personal_account::varchar)", connection))
+                {
+                    command.Parameters.AddWithValue("_personal_account", personal_account);
+                    try
+                    {
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Депозит успешно закрыт");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
             }
         }
     }
