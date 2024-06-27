@@ -41,17 +41,50 @@ namespace deposit_app.Forms
 
 		private void SaveChange_btn_Click(object sender, EventArgs e)
 		{
+			
 			string email = email_textBox.Text;
+			if (email == null || email.Length == 0)
+			{
+				MessageBox.Show("Заполните поле email");
+				return;
+			}
 			string depositType = depositTypes_textbox.Text;
+			if(depositType == null || depositType.Length == 0)
+			{
+				MessageBox.Show("Выберите тип вклада");
+				return;
+			}
 			string currency = curr_textbox.Text;
+			if (currency == null) 
+			{
+				MessageBox.Show("Выберите тип валюты");
+				return;
+			}
 			string status = "Открыт"; // Not used in the procedure, hardcoded to 'Открыт'
+			if (string.IsNullOrEmpty(personalBalance_textbox.Text))
+			{
+				MessageBox.Show("Введите лицевой счёт");
+				return;
+			}
 			string personalAccount = personalBalance_textbox.Text;
+			
 			decimal initialBalance = decimal.Parse(startBalance_textbox.Text);
-			decimal currBalance = decimal.Parse(CurrBallance_textbox.Text);
-			DateTime openDate = DateTime.Parse(start_dateTimePicker.Text);
-			DateTime closeDate = DateTime.Parse(Finish_dateTimePicker.Text);
+			if (initialBalance == null) {
+				MessageBox.Show("Введите начальный баланс");
+				return;
+			}
+			decimal currBalance = initialBalance;
+			DateTime openDate = DateTime.Today;//DateTime.Parse(start_dateTimePicker.Text);
+			
+			//DateTime? closeDate = DBNull.Value;
+			if (string.IsNullOrEmpty(duration_textBox.Text))
+			{
+				MessageBox.Show("Введите продолжительность вклада");
+				return;
+			}
 			short timeframe = short.Parse(duration_textBox.Text);
-			Db.AddDeposit(email, depositType, currency, status, personalAccount, initialBalance, currBalance, openDate, closeDate, timeframe);
+			
+			Db.AddDeposit(email, depositType, currency, status, personalAccount, initialBalance, currBalance, openDate, DBNull.Value, timeframe);
 			this.Close();
 		}
 

@@ -28,29 +28,20 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddDeposit_Form));
 			label1 = new Label();
 			label2 = new Label();
 			label3 = new Label();
 			label4 = new Label();
 			label5 = new Label();
 			label6 = new Label();
-			label7 = new Label();
-			label8 = new Label();
 			label10 = new Label();
 			email_textBox = new TextBox();
 			depositTypes_textbox = new ComboBox();
 			curr_textbox = new ComboBox();
 			startBalance_textbox = new TextBox();
 			personalBalance_textbox = new TextBox();
-			CurrBallance_textbox = new TextBox();
-			start_dateTimePicker = new DateTimePicker();
-			Finish_dateTimePicker = new DateTimePicker();
-			label9 = new Label();
 			duration_textBox = new TextBox();
-			pictureBox1 = new PictureBox();
 			SaveChange_btn = new Button();
-			((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
 			SuspendLayout();
 			// 
 			// label1
@@ -117,31 +108,11 @@
 			label6.TabIndex = 5;
 			label6.Text = "Введите стартовый баланс";
 			// 
-			// label7
-			// 
-			label7.AutoSize = true;
-			label7.Font = new Font("Segoe UI", 11.25F);
-			label7.Location = new Point(27, 298);
-			label7.Name = "label7";
-			label7.Size = new Size(193, 20);
-			label7.TabIndex = 6;
-			label7.Text = "Введите валютный баланс";
-			// 
-			// label8
-			// 
-			label8.AutoSize = true;
-			label8.Font = new Font("Segoe UI", 11.25F);
-			label8.Location = new Point(28, 347);
-			label8.Name = "label8";
-			label8.Size = new Size(110, 20);
-			label8.TabIndex = 7;
-			label8.Text = "Дата открытия";
-			// 
 			// label10
 			// 
 			label10.AutoSize = true;
 			label10.Font = new Font("Segoe UI", 11.25F);
-			label10.Location = new Point(31, 445);
+			label10.Location = new Point(27, 310);
 			label10.Name = "label10";
 			label10.Size = new Size(152, 20);
 			label10.TabIndex = 9;
@@ -168,6 +139,7 @@
 			// curr_textbox
 			// 
 			curr_textbox.FormattingEnabled = true;
+			curr_textbox.Items.AddRange(new object[] { "Российский рубль ", "Доллар США", "Евро", "Британский фунт", "Японская иена" });
 			curr_textbox.Location = new Point(27, 173);
 			curr_textbox.Name = "curr_textbox";
 			curr_textbox.Size = new Size(212, 23);
@@ -190,61 +162,18 @@
 			personalBalance_textbox.TabIndex = 15;
 			personalBalance_textbox.TextChanged += personalBalance_textbox_TextChanged;
 			// 
-			// CurrBallance_textbox
-			// 
-			CurrBallance_textbox.Location = new Point(28, 321);
-			CurrBallance_textbox.Name = "CurrBallance_textbox";
-			CurrBallance_textbox.Size = new Size(211, 23);
-			CurrBallance_textbox.TabIndex = 16;
-			CurrBallance_textbox.TextChanged += CurrBallance_textbox_TextChanged;
-			// 
-			// start_dateTimePicker
-			// 
-			start_dateTimePicker.Location = new Point(28, 370);
-			start_dateTimePicker.Name = "start_dateTimePicker";
-			start_dateTimePicker.Size = new Size(211, 23);
-			start_dateTimePicker.TabIndex = 17;
-			start_dateTimePicker.ValueChanged += start_dateTimePicker_ValueChanged;
-			// 
-			// Finish_dateTimePicker
-			// 
-			Finish_dateTimePicker.Location = new Point(28, 419);
-			Finish_dateTimePicker.Name = "Finish_dateTimePicker";
-			Finish_dateTimePicker.Size = new Size(211, 23);
-			Finish_dateTimePicker.TabIndex = 18;
-			Finish_dateTimePicker.ValueChanged += Finish_dateTimePicker_ValueChanged;
-			// 
-			// label9
-			// 
-			label9.AutoSize = true;
-			label9.Font = new Font("Segoe UI", 11.25F);
-			label9.Location = new Point(28, 396);
-			label9.Name = "label9";
-			label9.Size = new Size(110, 20);
-			label9.TabIndex = 8;
-			label9.Text = "Дата закрытия";
-			// 
 			// duration_textBox
 			// 
-			duration_textBox.Location = new Point(27, 468);
+			duration_textBox.Location = new Point(28, 333);
 			duration_textBox.Name = "duration_textBox";
 			duration_textBox.Size = new Size(212, 23);
 			duration_textBox.TabIndex = 19;
 			duration_textBox.TextChanged += duration_textBox_TextChanged;
 			// 
-			// pictureBox1
-			// 
-			pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-			pictureBox1.Location = new Point(245, 78);
-			pictureBox1.Name = "pictureBox1";
-			pictureBox1.Size = new Size(463, 413);
-			pictureBox1.TabIndex = 20;
-			pictureBox1.TabStop = false;
-			// 
 			// SaveChange_btn
 			// 
 			SaveChange_btn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-			SaveChange_btn.Location = new Point(139, 527);
+			SaveChange_btn.Location = new Point(140, 378);
 			SaveChange_btn.Name = "SaveChange_btn";
 			SaveChange_btn.Size = new Size(135, 39);
 			SaveChange_btn.TabIndex = 21;
@@ -256,22 +185,15 @@
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(424, 578);
+			ClientSize = new Size(424, 438);
 			Controls.Add(SaveChange_btn);
-			Controls.Add(pictureBox1);
 			Controls.Add(duration_textBox);
-			Controls.Add(Finish_dateTimePicker);
-			Controls.Add(start_dateTimePicker);
-			Controls.Add(CurrBallance_textbox);
 			Controls.Add(personalBalance_textbox);
 			Controls.Add(startBalance_textbox);
 			Controls.Add(curr_textbox);
 			Controls.Add(depositTypes_textbox);
 			Controls.Add(email_textBox);
 			Controls.Add(label10);
-			Controls.Add(label9);
-			Controls.Add(label8);
-			Controls.Add(label7);
 			Controls.Add(label6);
 			Controls.Add(label5);
 			Controls.Add(label4);
@@ -281,7 +203,6 @@
 			Name = "AddDeposit_Form";
 			Text = "AddDeposit_Form";
 			Load += AddDeposit_Form_Load;
-			((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -294,20 +215,13 @@
 		private Label label4;
 		private Label label5;
 		private Label label6;
-		private Label label7;
-		private Label label8;
 		private Label label10;
 		private TextBox email_textBox;
 		private ComboBox depositTypes_textbox;
 		private ComboBox curr_textbox;
 		private TextBox startBalance_textbox;
 		private TextBox personalBalance_textbox;
-		private TextBox CurrBallance_textbox;
-		private DateTimePicker start_dateTimePicker;
-		private DateTimePicker Finish_dateTimePicker;
-		private Label label9;
 		private TextBox duration_textBox;
-		private PictureBox pictureBox1;
 		private Button SaveChange_btn;
 	}
 }
