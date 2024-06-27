@@ -55,7 +55,7 @@ namespace deposit_app.Forms
                 MessageBox.Show("Ошибка! Выберите любое поле вклада в таблице \"Вклады клиента\"");
                 return;
             }
-            if (clientDepositsDataGridView.CurrentRow.Cells[5].Value.ToString() != "Закрыт")
+            if (clientDepositsDataGridView.CurrentRow.Cells[5].Value.ToString() == "Закрыт")
             {
                 MessageBox.Show("Ошибка! Вклад уже закрыт");
                 return;

@@ -149,7 +149,7 @@ namespace deposit_app.DataBase
         
 		public static void AddDeposit(string email, string depositType, string currency, string status, string personalAccount, decimal initialBalance, decimal currBalance, DateTime openDate, DBNull closeDate, short timeframe)
 		{
-			using (var connection = new NpgsqlConnection(connectionString))
+			using (var connection = new NpgsqlConnection(_connectionString))
 			{
 				try
 				{
