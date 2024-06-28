@@ -53,7 +53,6 @@
 			label1.Size = new Size(205, 32);
 			label1.TabIndex = 0;
 			label1.Text = "Добавить вклад";
-			label1.Click += label1_Click;
 			// 
 			// label2
 			// 
@@ -65,7 +64,6 @@
 			label2.Size = new Size(167, 20);
 			label2.TabIndex = 1;
 			label2.Text = "Введите почту клиента";
-			label2.Click += label2_Click;
 			// 
 			// label3
 			// 
@@ -86,7 +84,6 @@
 			label4.Size = new Size(131, 20);
 			label4.TabIndex = 3;
 			label4.Text = "Выберите валюту";
-			label4.Click += label4_Click;
 			// 
 			// label5
 			// 
@@ -124,7 +121,6 @@
 			email_textBox.Name = "email_textBox";
 			email_textBox.Size = new Size(212, 23);
 			email_textBox.TabIndex = 11;
-			email_textBox.TextChanged += email_textBox_TextChanged;
 			// 
 			// depositTypes_textbox
 			// 
@@ -134,7 +130,6 @@
 			depositTypes_textbox.Name = "depositTypes_textbox";
 			depositTypes_textbox.Size = new Size(212, 23);
 			depositTypes_textbox.TabIndex = 12;
-			depositTypes_textbox.SelectedIndexChanged += depositTypes_textbox_SelectedIndexChanged;
 			// 
 			// curr_textbox
 			// 
@@ -144,7 +139,6 @@
 			curr_textbox.Name = "curr_textbox";
 			curr_textbox.Size = new Size(212, 23);
 			curr_textbox.TabIndex = 13;
-			curr_textbox.SelectedIndexChanged += curr_textbox_SelectedIndexChanged;
 			// 
 			// startBalance_textbox
 			// 
@@ -152,7 +146,6 @@
 			startBalance_textbox.Name = "startBalance_textbox";
 			startBalance_textbox.Size = new Size(212, 23);
 			startBalance_textbox.TabIndex = 14;
-			startBalance_textbox.TextChanged += startBalance_textbox_TextChanged;
 			// 
 			// personalBalance_textbox
 			// 
@@ -160,7 +153,6 @@
 			personalBalance_textbox.Name = "personalBalance_textbox";
 			personalBalance_textbox.Size = new Size(211, 23);
 			personalBalance_textbox.TabIndex = 15;
-			personalBalance_textbox.TextChanged += personalBalance_textbox_TextChanged;
 			// 
 			// duration_textBox
 			// 
@@ -168,7 +160,6 @@
 			duration_textBox.Name = "duration_textBox";
 			duration_textBox.Size = new Size(212, 23);
 			duration_textBox.TabIndex = 19;
-			duration_textBox.TextChanged += duration_textBox_TextChanged;
 			// 
 			// SaveChange_btn
 			// 
@@ -202,7 +193,6 @@
 			Controls.Add(label1);
 			Name = "AddDeposit_Form";
 			Text = "AddDeposit_Form";
-			Load += AddDeposit_Form_Load;
 			ResumeLayout(false);
 			PerformLayout();
 		}

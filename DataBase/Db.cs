@@ -4,7 +4,6 @@ using Npgsql;
 
 namespace deposit_app.DataBase
 {
-
 	internal class Db
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
@@ -132,7 +131,7 @@ namespace deposit_app.DataBase
                     {
                         connection.Open();
                         command.ExecuteNonQuery();
-                        MessageBox.Show("Депозит успешно закрыт");
+                        MessageBox.Show("Вклад успешно закрыт");
                     }
                     catch (Exception ex)
                     {

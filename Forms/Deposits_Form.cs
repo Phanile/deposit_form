@@ -1,104 +1,136 @@
-﻿using deposit_app.DataBase;
+﻿using deposit_app.Const;
+using deposit_app.DataBase;
+using System.Windows.Forms;
 
 namespace deposit_app.Forms
 {
-    public partial class Deposits_Form : Form
-    {
-        public Deposits_Form()
-        {
-            InitializeComponent();
-        }
+	public partial class Deposits_Form : Form
+	{
+		private AddDeposit_Form? _form;
 
-        private void Deposits_Form_Load(object sender, System.EventArgs e)
-        {
-            clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+		public Deposits_Form()
+		{
+			InitializeComponent();
+			ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
+			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
+			contextMenuStrip1.Items.Add(showHistoryMenuItem);
+		}
 
-            var clients = Db.GetClients();
-            clientsDataGridView.DataSource = clients;
-            clientsDataGridView.Columns["id"].Visible = false;
-            clientsDataGridView.Columns["password"].Visible = false;
-        }
+		private void Deposits_Form_Load(object sender, System.EventArgs e)
+		{
+			clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-        private void ViewDepositsButton_Click(object sender, System.EventArgs e)
-        {
-            if (clientsDataGridView.CurrentRow == null)
-            {
-                MessageBox.Show("Ошибка! Выберите любое поле клиента в таблице \"Клиенты\"");
-                return;
-            }
+			var clients = Db.GetClients();
+			clientsDataGridView.DataSource = clients;
+			clientsDataGridView.Columns["id"].Visible = false;
+			clientsDataGridView.Columns["password"].Visible = false;
+		}
 
-            var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
-            var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
-            clientDepositsDataGridView.DataSource = clientDeposits;
-            clientDepositsDataGridView.Columns["id"].Visible = false;
-            clientDepositsDataGridView.Columns["client_id"].Visible = false;
-        }
+		private void ViewDepositsButton_Click(object sender, System.EventArgs e)
+		{
+			if (clientsDataGridView.CurrentRow == null)
+			{
+				MessageBox.Show("Ошибка! Выберите любое поле клиента в таблице \"Клиенты\"");
+				return;
+			}
 
-        private void AddDepositButton_Click(object sender, System.EventArgs e)
-        {
-            AddDeposit_Form form = new AddDeposit_Form();
-            form.Show();
-        }
+			var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
 
-        private void DepositHistoryButton_Click(object sender, System.EventArgs e)
-        {
-            panel2.Visible = true;
-            var histories = Db.GetTransactionHistories();
-            transactionHistoryGridView.DataSource = histories;
-        }
+			if (clientPassportData != null)
+			{
+				var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
+				clientDepositsDataGridView.DataSource = clientDeposits;
+				clientDepositsDataGridView.Columns["id"].Visible = false;
+				clientDepositsDataGridView.Columns["client_id"].Visible = false;
+			}
+		}
 
-        private void CloseDeposit_Click(object sender, System.EventArgs e)
-        {
-            if (clientsDataGridView.CurrentRow == null)
-            {
-                MessageBox.Show("Ошибка! Выберите любое поле вклада в таблице \"Вклады клиента\"");
-                return;
-            }
-            if (clientDepositsDataGridView.CurrentRow.Cells[5].Value.ToString() == "Закрыт")
-            {
-                MessageBox.Show("Ошибка! Вклад уже закрыт");
-                return;
-            }
-            var depositPersonalAccount = clientDepositsDataGridView.CurrentRow.Cells[5].Value.ToString();
-            Db.CloseDeposit(depositPersonalAccount);
-            RedrawDeposits();
-        }
+		private void AddDepositButton_Click(object sender, System.EventArgs e)
+		{
+			if (_form == null || _form.IsDisposed)
+			{
+				_form = new AddDeposit_Form();
+				_form.Show();
+			}
+			else
+			{
+				_form.Show();
+				_form.Focus();
+			}
+		}
 
-        private void clientsDataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
+		private void DepositHistoryButton_Click(object sender, System.EventArgs e)
+		{
+			panel2.Visible = true;
+			var histories = Db.GetTransactionHistories();
+			transactionHistoryGridView.DataSource = histories;
+		}
 
+		private void CloseDeposit_Click(object sender, System.EventArgs e)
+		{
+			if (clientsDataGridView.CurrentRow == null)
+			{
+				MessageBox.Show("Ошибка! Выберите любое поле вклада в таблице \"Вклады клиента\"");
+				return;
+			}
 
-        }
+			if (clientDepositsDataGridView.CurrentRow.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад уже закрыт");
+				return;
+			}
 
-        private void button_back_from_transaction_history_Click(object sender, EventArgs e)
-        {
-            panel2.Visible = false;
-        }
+			var depositPersonalAccount = clientDepositsDataGridView.CurrentRow.Cells[5].Value.ToString();
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
+			if (depositPersonalAccount != null)
+			{
+				Db.CloseDeposit(depositPersonalAccount);
+				RedrawDeposits();
+			}
+		}
 
-        }
+		private void button_back_from_transaction_history_Click(object sender, EventArgs e)
+		{
+			panel2.Visible = false;
+		}
 
-        private void clientDepositsDataGridView_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
+		private void RedrawDeposits()
+		{
+			if (clientsDataGridView.CurrentRow == null)
+			{
+				MessageBox.Show("Ошибка! Выберите любое поле клиента в таблице \"Клиенты\"");
+				return;
+			}
 
-        }
+			var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
 
-        private void RedrawDeposits()
-        {
-            if (clientsDataGridView.CurrentRow == null)
-            {
-                MessageBox.Show("Ошибка! Выберите любое поле клиента в таблице \"Клиенты\"");
-                return;
-            }
+			if (clientPassportData != null)
+			{
+				var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
+				clientDepositsDataGridView.DataSource = clientDeposits;
+				clientDepositsDataGridView.Columns["id"].Visible = false;
+				clientDepositsDataGridView.Columns["client_id"].Visible = false;
+			}
+		}
 
-            var clientPassportData = clientsDataGridView.CurrentRow.Cells[7].Value.ToString();
-            var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
-            clientDepositsDataGridView.DataSource = clientDeposits;
-            clientDepositsDataGridView.Columns["id"].Visible = false;
-            clientDepositsDataGridView.Columns["client_id"].Visible = false;
-        }
-    }
+		private void clientDepositsDataGridView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				var hit = clientDepositsDataGridView.HitTest(e.X, e.Y);
+				if (hit.RowIndex >= 0)
+				{
+					clientDepositsDataGridView.ClearSelection();
+					clientDepositsDataGridView.Rows[hit.RowIndex].Selected = true;
+					contextMenuStrip1.Show(clientDepositsDataGridView, e.Location);
+				}
+			}
+		}
+
+		private void ShowDepositTransactionHistory(object sender, EventArgs e)
+		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0].Cells[0].Value.ToString();
+		}
+	}
 }
