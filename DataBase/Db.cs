@@ -8,10 +8,11 @@ namespace deposit_app.DataBase
 	internal class Db
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["pgConnection"].ConnectionString;
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static List<Client> GetClients()
         {
-            var clients = new List<Client>();
+			var clients = new List<Client>();
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 string query = "SELECT * FROM clients";
@@ -170,7 +171,8 @@ namespace deposit_app.DataBase
                     finally
                     {
                         connection.Close();
-                    }
+						_logger.Info($"Вклад с лицевым счетом {personal_account} успешно закрыт");
+					}
                 }
             }
         }
@@ -221,6 +223,7 @@ namespace deposit_app.DataBase
 				finally
 				{
 					connection.Close();
+					_logger.Info($"Открыт вклад пользователю {email}");
 				}
 			}
 		}
@@ -273,10 +276,11 @@ namespace deposit_app.DataBase
                 {
                     MessageBox.Show($"Ошибка: {ex.Message}");
                 }
-                finally
-                {
+				finally
+				{
                     connection.Close();
-                }
+					_logger.Info($"Добавлен новый клиент {client.first_name}, {client.email}");
+				}
             }
         }
 
@@ -316,6 +320,7 @@ namespace deposit_app.DataBase
 				finally
 				{
 					connection.Close();
+					_logger.Info($"На вклад {depositId} внесена сумма {value}");
 				}
 			}
             

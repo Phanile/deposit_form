@@ -36,15 +36,15 @@
             patronymic_textBox = new TextBox();
             label4 = new Label();
             label5 = new Label();
-            phone_textBox = new TextBox();
             label6 = new Label();
             email_textBox = new TextBox();
             label7 = new Label();
-            passportSeries_textBox = new TextBox();
             label8 = new Label();
-            birthDate_dateTimePicker = new DateTimePicker();
             SaveChange_button = new Button();
-            passportNumber_textBox = new TextBox();
+            phone_maskedTextBox = new MaskedTextBox();
+            birthDate_maskedTextBox = new MaskedTextBox();
+            passportNumber_maskedTextBox = new MaskedTextBox();
+            passportSeries_maskedTextBox = new MaskedTextBox();
             SuspendLayout();
             // 
             // label1
@@ -61,9 +61,11 @@
             // 
             surname_textBox.Location = new Point(32, 106);
             surname_textBox.Margin = new Padding(3, 4, 3, 4);
+            surname_textBox.MaxLength = 50;
             surname_textBox.Name = "surname_textBox";
             surname_textBox.Size = new Size(242, 27);
             surname_textBox.TabIndex = 13;
+            surname_textBox.KeyPress += surname_textBox_KeyPress;
             // 
             // label2
             // 
@@ -80,9 +82,11 @@
             // 
             firstname_textBox.Location = new Point(32, 166);
             firstname_textBox.Margin = new Padding(3, 4, 3, 4);
+            firstname_textBox.MaxLength = 50;
             firstname_textBox.Name = "firstname_textBox";
             firstname_textBox.Size = new Size(242, 27);
             firstname_textBox.TabIndex = 15;
+            firstname_textBox.KeyPress += firstname_textBox_KeyPress;
             // 
             // label3
             // 
@@ -99,9 +103,11 @@
             // 
             patronymic_textBox.Location = new Point(32, 226);
             patronymic_textBox.Margin = new Padding(3, 4, 3, 4);
+            patronymic_textBox.MaxLength = 50;
             patronymic_textBox.Name = "patronymic_textBox";
             patronymic_textBox.Size = new Size(242, 27);
             patronymic_textBox.TabIndex = 17;
+            patronymic_textBox.KeyPress += patronymic_textBox_KeyPress;
             // 
             // label4
             // 
@@ -125,15 +131,6 @@
             label5.TabIndex = 18;
             label5.Text = "Дата рождения";
             // 
-            // phone_textBox
-            // 
-            phone_textBox.Location = new Point(32, 346);
-            phone_textBox.Margin = new Padding(3, 4, 3, 4);
-            phone_textBox.Name = "phone_textBox";
-            phone_textBox.PlaceholderText = "88005553535";
-            phone_textBox.Size = new Size(242, 27);
-            phone_textBox.TabIndex = 21;
-            // 
             // label6
             // 
             label6.AutoSize = true;
@@ -141,9 +138,9 @@
             label6.ImageAlign = ContentAlignment.BottomRight;
             label6.Location = new Point(26, 317);
             label6.Name = "label6";
-            label6.Size = new Size(87, 25);
+            label6.Size = new Size(161, 25);
             label6.TabIndex = 20;
-            label6.Text = "Телефон";
+            label6.Text = "Телефон (без +7)";
             // 
             // email_textBox
             // 
@@ -165,15 +162,6 @@
             label7.TabIndex = 22;
             label7.Text = "Электронная почта";
             // 
-            // passportSeries_textBox
-            // 
-            passportSeries_textBox.Location = new Point(32, 466);
-            passportSeries_textBox.Margin = new Padding(3, 4, 3, 4);
-            passportSeries_textBox.Name = "passportSeries_textBox";
-            passportSeries_textBox.PlaceholderText = "1234";
-            passportSeries_textBox.Size = new Size(81, 27);
-            passportSeries_textBox.TabIndex = 25;
-            // 
             // label8
             // 
             label8.AutoSize = true;
@@ -184,13 +172,6 @@
             label8.Size = new Size(215, 25);
             label8.TabIndex = 24;
             label8.Text = "Паспорт (серия номер)";
-            // 
-            // birthDate_dateTimePicker
-            // 
-            birthDate_dateTimePicker.Location = new Point(32, 287);
-            birthDate_dateTimePicker.Name = "birthDate_dateTimePicker";
-            birthDate_dateTimePicker.Size = new Size(242, 27);
-            birthDate_dateTimePicker.TabIndex = 26;
             // 
             // SaveChange_button
             // 
@@ -204,28 +185,57 @@
             SaveChange_button.UseVisualStyleBackColor = true;
             SaveChange_button.Click += SaveChange_button_Click;
             // 
-            // passportNumber_textBox
+            // phone_maskedTextBox
             // 
-            passportNumber_textBox.Location = new Point(135, 466);
-            passportNumber_textBox.Margin = new Padding(3, 4, 3, 4);
-            passportNumber_textBox.Name = "passportNumber_textBox";
-            passportNumber_textBox.PlaceholderText = "123456";
-            passportNumber_textBox.Size = new Size(139, 27);
-            passportNumber_textBox.TabIndex = 28;
+            phone_maskedTextBox.Location = new Point(32, 345);
+            phone_maskedTextBox.Mask = "(999) 000-0000";
+            phone_maskedTextBox.Name = "phone_maskedTextBox";
+            phone_maskedTextBox.Size = new Size(242, 27);
+            phone_maskedTextBox.TabIndex = 29;
+            phone_maskedTextBox.MouseClick += phone_maskedTextBox_MouseClick;
+            // 
+            // birthDate_maskedTextBox
+            // 
+            birthDate_maskedTextBox.Location = new Point(32, 285);
+            birthDate_maskedTextBox.Mask = "00/00/0000";
+            birthDate_maskedTextBox.Name = "birthDate_maskedTextBox";
+            birthDate_maskedTextBox.Size = new Size(242, 27);
+            birthDate_maskedTextBox.TabIndex = 30;
+            birthDate_maskedTextBox.ValidatingType = typeof(DateTime);
+            birthDate_maskedTextBox.MouseClick += birthDate_maskedTextBox_MouseClick;
+            // 
+            // passportNumber_maskedTextBox
+            // 
+            passportNumber_maskedTextBox.Location = new Point(139, 465);
+            passportNumber_maskedTextBox.Mask = "000000";
+            passportNumber_maskedTextBox.Name = "passportNumber_maskedTextBox";
+            passportNumber_maskedTextBox.Size = new Size(135, 27);
+            passportNumber_maskedTextBox.TabIndex = 31;
+            passportNumber_maskedTextBox.MouseClick += passportNumber_maskedTextBox_MouseClick;
+            // 
+            // passportSeries_maskedTextBox
+            // 
+            passportSeries_maskedTextBox.Location = new Point(32, 465);
+            passportSeries_maskedTextBox.Mask = "0000";
+            passportSeries_maskedTextBox.Name = "passportSeries_maskedTextBox";
+            passportSeries_maskedTextBox.Size = new Size(65, 27);
+            passportSeries_maskedTextBox.TabIndex = 32;
+            passportSeries_maskedTextBox.ValidatingType = typeof(int);
+            passportSeries_maskedTextBox.MouseClick += passportSeries_maskedTextBox_MouseClick;
             // 
             // AddClient_Form
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(485, 584);
-            Controls.Add(passportNumber_textBox);
+            Controls.Add(passportSeries_maskedTextBox);
+            Controls.Add(passportNumber_maskedTextBox);
+            Controls.Add(birthDate_maskedTextBox);
+            Controls.Add(phone_maskedTextBox);
             Controls.Add(SaveChange_button);
-            Controls.Add(birthDate_dateTimePicker);
-            Controls.Add(passportSeries_textBox);
             Controls.Add(label8);
             Controls.Add(email_textBox);
             Controls.Add(label7);
-            Controls.Add(phone_textBox);
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(patronymic_textBox);
@@ -251,15 +261,15 @@
         private TextBox patronymic_textBox;
         private Label label4;
         private Label label5;
-        private TextBox phone_textBox;
         private Label label6;
         private TextBox email_textBox;
         private Label label7;
         private TextBox passportData_textBox;
         private Label label8;
-        private DateTimePicker birthDate_dateTimePicker;
         private Button SaveChange_button;
-        private TextBox passportSeries_textBox;
-        private TextBox passportNumber_textBox;
+        private MaskedTextBox phone_maskedTextBox;
+        private MaskedTextBox birthDate_maskedTextBox;
+        private MaskedTextBox passportNumber_maskedTextBox;
+        private MaskedTextBox passportSeries_maskedTextBox;
     }
 }

@@ -13,6 +13,7 @@ namespace deposit_app.Forms
         {
             InitializeComponent();
         }
+
         private void OnClientAdded()
         {
             ClientAdded?.Invoke(this, EventArgs.Empty);
@@ -45,14 +46,19 @@ namespace deposit_app.Forms
                 errors.Add("Введите Отчество");
             }
 
-            DateTime birthDate = birthDate_dateTimePicker.Value;
+            DateTime birthDate;
+            DateTime.TryParse(birthDate_maskedTextBox.Text, out birthDate);
             if (birthDate > DateTime.Now)
             {
                 errors.Add("Дата рождения не может быть в будущем");
             }
+            else if (birthDate.Year == 1)
+            {
+                errors.Add("Ошибка ввода даты рождения");
+            }
 
-            string phone = phone_textBox.Text;
-            if (string.IsNullOrWhiteSpace(phone))
+            string phone = $"+7{Regex.Replace(phone_maskedTextBox.Text, "[^0-9]", "")}";
+            if (phone.Equals("+7") || phone.Length != 12)
             {
                 errors.Add("Введите телефонный номер");
             }
@@ -67,19 +73,19 @@ namespace deposit_app.Forms
                 errors.Add("Неправильно введена электронная почта");
             }
 
-            string passportData = passportSeries_textBox.Text + passportNumber_textBox.Text;
+            string passportData = passportSeries_maskedTextBox.Text + passportNumber_maskedTextBox.Text;
             if (string.IsNullOrWhiteSpace(passportData))
             {
                 errors.Add("Введите паспортные данные");
             }
-            else if (passportData.Length != 10)
+            else if (passportSeries_maskedTextBox.Text.Length != 4 || passportNumber_maskedTextBox.Text.Length != 6)
             {
                 errors.Add("Неправильно введены паспортные данные(10 символов)");
             }
-            
+
             if (errors.Count > 0)
             {
-                MessageBox.Show(string.Join('\n',errors));
+                MessageBox.Show(string.Join('\n', errors));
                 return;
             }
 
@@ -93,10 +99,59 @@ namespace deposit_app.Forms
                 email = email,
                 passport_data = passportData
             };
-            
+
             Db.AddClient(client);
             OnClientAdded();
             this.Close();
+        }
+
+        private void passportSeries_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            passportSeries_maskedTextBox.SelectionStart = 0;
+        }
+
+        private void passportNumber_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            passportNumber_maskedTextBox.SelectionStart = 0;
+        }
+
+        private void birthDate_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            birthDate_maskedTextBox.SelectionStart = 0;
+        }
+
+        private void phone_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            phone_maskedTextBox.SelectionStart = 0;
+        }
+
+        private void surname_textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!IsRussianLetter(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void firstname_textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!IsRussianLetter(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void patronymic_textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!IsRussianLetter(e.KeyChar) && e.KeyChar != (char)Keys.Back && e.KeyChar != '-')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool IsRussianLetter(char c)
+        {
+            return (c >= 'А' && c <= 'я') || c == 'Ё' || c == 'ё';
         }
     }
 }
