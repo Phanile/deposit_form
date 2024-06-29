@@ -44,6 +44,7 @@
 			transactionHistoryGridView = new DataGridView();
 			label2 = new Label();
 			label3 = new Label();
+			contextMenuStrip2 = new ContextMenuStrip(components);
 			((System.ComponentModel.ISupportInitialize)clientsDataGridView).BeginInit();
 			((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).BeginInit();
 			panel1.SuspendLayout();
@@ -115,6 +116,7 @@
 			clientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			clientsDataGridView.Size = new Size(838, 194);
 			clientsDataGridView.TabIndex = 5;
+			clientsDataGridView.MouseDown += ClientsDataGridView_MouseDown;
 			// 
 			// clientDepositsDataGridView
 			// 
@@ -126,7 +128,7 @@
 			clientDepositsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 			clientDepositsDataGridView.Size = new Size(839, 133);
 			clientDepositsDataGridView.TabIndex = 6;
-			clientDepositsDataGridView.MouseDown += clientDepositsDataGridView_MouseDown;
+			clientDepositsDataGridView.MouseDown += ClientDepositsDataGridView_MouseDown;
 			// 
 			// contextMenuStrip1
 			// 
@@ -202,12 +204,16 @@
 			label3.TabIndex = 9;
 			label3.Text = "Вклады клиента";
 			// 
+			// contextMenuStrip2
+			// 
+			contextMenuStrip2.Name = "contextMenuStrip2";
+			contextMenuStrip2.Size = new Size(181, 26);
+			// 
 			// Deposits_Form
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(859, 518);
-			Controls.Add(panel2);
 			Controls.Add(label3);
 			Controls.Add(label2);
 			Controls.Add(panel1);
@@ -217,6 +223,7 @@
 			Controls.Add(DepositHistoryButton);
 			Controls.Add(AddDepositButton);
 			Controls.Add(ViewDepositsButton);
+			Controls.Add(panel2);
 			Name = "Deposits_Form";
 			Text = "Deposits_Form";
 			Load += Deposits_Form_Load;
@@ -249,5 +256,6 @@
         private Button CloseDeposit;
 		private ContextMenuStrip contextMenuStrip1;
 		private TextBox textBox1;
+		private ContextMenuStrip contextMenuStrip2;
 	}
 }

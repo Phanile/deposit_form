@@ -7,5 +7,8 @@
     <Compile Update="Forms\Deposits_Form.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\EditClient_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

@@ -12,8 +12,11 @@ namespace deposit_app.Forms
 		{
 			InitializeComponent();
 			ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
+			ToolStripMenuItem showEditMenuItem = new ToolStripMenuItem("Редактирование");
 			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
+			showEditMenuItem.Click += ShowEditClientsForm;
 			contextMenuStrip1.Items.Add(showHistoryMenuItem);
+			contextMenuStrip2.Items.Add(showEditMenuItem);
 		}
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
@@ -115,7 +118,7 @@ namespace deposit_app.Forms
 			}
 		}
 
-		private void clientDepositsDataGridView_MouseDown(object sender, MouseEventArgs e)
+		private void ClientDepositsDataGridView_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
 			{
@@ -125,6 +128,20 @@ namespace deposit_app.Forms
 					clientDepositsDataGridView.ClearSelection();
 					clientDepositsDataGridView.Rows[hit.RowIndex].Selected = true;
 					contextMenuStrip1.Show(clientDepositsDataGridView, e.Location);
+				}
+			}
+		}
+
+		private void ClientsDataGridView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				var hit = clientsDataGridView.HitTest(e.X, e.Y);
+				if (hit.RowIndex >= 0)
+				{
+					clientsDataGridView.ClearSelection();
+					clientsDataGridView.Rows[hit.RowIndex].Selected = true;
+					contextMenuStrip2.Show(clientsDataGridView, e.Location);
 				}
 			}
 		}
@@ -153,6 +170,27 @@ namespace deposit_app.Forms
 					transactionHistoryGridView.Visible = false;
 					textBox1.Visible = true;
 				}
+			}
+		}
+		private void ShowEditClientsForm(object sender, EventArgs e)
+		{
+			var clientId = clientsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+			if (clientId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+			}
+			else
+			{
+				EditClient_Form editForm = new EditClient_Form();
+				DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
+				editForm.Surname_textBox.Text = selectRow.Cells["surname"].Value.ToString();
+				editForm.FirstName_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
+				editForm.patronymik_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
+				editForm.BirthDay_dateTimePicker.Text = selectRow.Cells["birth_date"].Value.ToString();
+				editForm.Phone_textBox.Text = selectRow.Cells["phone"].Value.ToString();
+				editForm.Email_textBox.Text = selectRow.Cells["email"].Value.ToString();
+				editForm.PassportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
+				editForm.Show();
 			}
 		}
 	}

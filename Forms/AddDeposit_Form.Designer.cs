@@ -121,6 +121,7 @@
 			email_textBox.Name = "email_textBox";
 			email_textBox.Size = new Size(212, 23);
 			email_textBox.TabIndex = 11;
+			email_textBox.TextChanged += email_textBox_TextChanged;
 			// 
 			// depositTypes_textbox
 			// 
