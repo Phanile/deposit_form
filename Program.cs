@@ -1,4 +1,5 @@
 using deposit_app.Forms;
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
 
 namespace deposit_app
 {
