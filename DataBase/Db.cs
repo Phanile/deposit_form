@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using deposit_app.Entities;
 using Npgsql;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
@@ -30,8 +31,6 @@ namespace deposit_app.DataBase
                         client.phone = reader.GetString(5);
                         client.email = reader.GetString(6);
                         client.passport_data = reader.GetString(7);
-                        client.login = reader.GetString(8);
-                        client.password = reader.GetString(9);
                         clients.Add(client);
                     }
                 }
@@ -194,5 +193,60 @@ namespace deposit_app.DataBase
 				}
 			}
 		}
+
+        public static void AddClient(Client client)
+        {
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (var checkClientExistsCommand = new NpgsqlCommand("SELECT * FROM check_client_exists(@passport_data, @email, @phone)", connection))
+                    {
+                        checkClientExistsCommand.Parameters.AddWithValue("passport_data", client.passport_data);
+                        checkClientExistsCommand.Parameters.AddWithValue("email", client.email);
+                        checkClientExistsCommand.Parameters.AddWithValue("phone", client.phone);
+
+                        var userCount = (bool)checkClientExistsCommand.ExecuteScalar();
+
+                        if (userCount)
+                        {
+                            MessageBox.Show("Пользователь с такими данными(паспорт, телефон или почта) существует");
+                            return;
+                        }
+                    }
+
+                    using (var command = new NpgsqlCommand("CALL add_client(@surname::varchar, " +
+                                                                          "@firstname::varchar, " +
+                                                                          "@patronymic::varchar, " +
+                                                                          "@birth_date::date, " +
+                                                                          "@phone::varchar, " +
+                                                                          "@email::varchar, " +
+                                                                          "@passport_data::varchar)", connection))
+                    {
+                        command.Parameters.AddWithValue("surname", client.surname);
+                        command.Parameters.AddWithValue("firstname", client.first_name);
+                        command.Parameters.AddWithValue("patronymic", client.patronymic);
+                        command.Parameters.AddWithValue("birth_date", $"{client.birth_date.Year}-{client.birth_date.Month}-{client.birth_date.Day}");
+                        command.Parameters.AddWithValue("phone", client.phone);
+                        command.Parameters.AddWithValue("email", client.email);
+                        command.Parameters.AddWithValue("passport_data", client.passport_data);
+
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Клиент успешно добавлен");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка: {ex.Message}");
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
 	}
 }
