@@ -30,7 +30,7 @@ namespace deposit_app.Forms
 				MessageBox.Show("Выберите тип валюты");
 				return;
 			}
-			string status = "Открыт"; // Not used in the procedure, hardcoded to 'Открыт'
+			string status = "Открыт";
 			if (string.IsNullOrEmpty(personalBalance_textbox.Text))
 			{
 				MessageBox.Show("Введите лицевой счёт");
