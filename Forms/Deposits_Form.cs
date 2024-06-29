@@ -4,26 +4,39 @@ using System.Windows.Forms;
 
 namespace deposit_app.Forms
 {
-    public partial class Deposits_Form : Form
-    {
-        private AddDeposit_Form? _form;
+	public partial class Deposits_Form : Form
+	{
+		private AddDeposit_Form? _form;
         private AddClient_Form? _addClientForm;
+		private AddMoneyToDeposit_Form? _addMoneyForm;
 
-        public Deposits_Form()
-        {
-            InitializeComponent();
-            ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
-            showHistoryMenuItem.Click += ShowDepositTransactionHistory;
-            contextMenuStrip1.Items.Add(showHistoryMenuItem);
-        }
+		public Deposits_Form()
+		{
+			InitializeComponent();
+			ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
+			ToolStripMenuItem showEditMenuItem = new ToolStripMenuItem("Редактирование");
+			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
+			showEditMenuItem.Click += ShowEditClientsForm;
+			contextMenuStrip2.Items.Add(showEditMenuItem);
+			ToolStripMenuItem closeDepositMenuItem = new ToolStripMenuItem("Закрыть вклад");
+			ToolStripMenuItem addMoneyToDepositMenuItem = new ToolStripMenuItem("Пополнить вклад");
+			ToolStripMenuItem takeMoneyFromDepositMenuItem = new ToolStripMenuItem("Снять деньги со вклада");
+			closeDepositMenuItem.Click += CloseDeposit_Click;
+			addMoneyToDepositMenuItem.Click += AddMoneyToDeposit;
+			contextMenuStrip1.Items.Add(showHistoryMenuItem);
+			contextMenuStrip1.Items.Add(closeDepositMenuItem);
+			contextMenuStrip1.Items.Add(addMoneyToDepositMenuItem);
+			contextMenuStrip1.Items.Add(takeMoneyFromDepositMenuItem);
+		}
 
         private void Deposits_Form_Load(object sender, System.EventArgs e)
         {
             clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            RedrawClients();
-        }
+			var clients = Db.GetClients();
+			clientsDataGridView.DataSource = clients;
+			clientsDataGridView.Columns["id"].Visible = false;
+		}
 
         private void ViewDepositsButton_Click(object sender, System.EventArgs e)
         {
@@ -58,12 +71,13 @@ namespace deposit_app.Forms
             }
         }
 
-        private void DepositHistoryButton_Click(object sender, System.EventArgs e)
-        {
-            panel2.Visible = true;
-            var histories = Db.GetTransactionHistories();
-            transactionHistoryGridView.DataSource = histories;
-        }
+		private void DepositHistoryButton_Click(object sender, System.EventArgs e)
+		{
+			textBox1.Visible = false;
+			panel2.Visible = true;
+			var histories = Db.GetTransactionHistories();
+			transactionHistoryGridView.DataSource = histories;
+		}
 
         private void CloseDeposit_Click(object sender, System.EventArgs e)
         {
@@ -127,25 +141,6 @@ namespace deposit_app.Forms
             clientsDataGridView.Columns["passport_data"].HeaderText = "Паспорт";
         }
 
-        private void clientDepositsDataGridView_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                var hit = clientDepositsDataGridView.HitTest(e.X, e.Y);
-                if (hit.RowIndex >= 0)
-                {
-                    clientDepositsDataGridView.ClearSelection();
-                    clientDepositsDataGridView.Rows[hit.RowIndex].Selected = true;
-                    contextMenuStrip1.Show(clientDepositsDataGridView, e.Location);
-                }
-            }
-        }
-
-        private void ShowDepositTransactionHistory(object sender, EventArgs e)
-        {
-            var depositId = clientDepositsDataGridView.SelectedRows[0].Cells[0].Value.ToString();
-        }
-
         private void addClientButton_Click(object sender, EventArgs e)
         {
             if (_addClientForm == null || _addClientForm.IsDisposed)
@@ -166,5 +161,116 @@ namespace deposit_app.Forms
         {
             RedrawClients();
         }
-    }
+
+		private void ClientDepositsDataGridView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				var hit = clientDepositsDataGridView.HitTest(e.X, e.Y);
+				if (hit.RowIndex >= 0)
+				{
+					clientDepositsDataGridView.ClearSelection();
+					clientDepositsDataGridView.Rows[hit.RowIndex].Selected = true;
+					contextMenuStrip1.Show(clientDepositsDataGridView, e.Location);
+				}
+			}
+		}
+
+		private void ClientsDataGridView_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				var hit = clientsDataGridView.HitTest(e.X, e.Y);
+				if (hit.RowIndex >= 0)
+				{
+					clientsDataGridView.ClearSelection();
+					clientsDataGridView.Rows[hit.RowIndex].Selected = true;
+					contextMenuStrip2.Show(clientsDataGridView, e.Location);
+				}
+			}
+		}
+
+		private void ShowDepositTransactionHistory(object sender, EventArgs e)
+		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+			}
+			else
+			{
+				panel2.Visible = true;
+				var histories = Db.GetTransactionHistoriesByDepositId(depositId);
+
+				if (histories.Count > 0)
+				{
+					textBox1.Visible = false;
+					transactionHistoryGridView.Visible = true;
+					transactionHistoryGridView.DataSource = histories;
+				}
+				else
+				{
+					transactionHistoryGridView.Visible = false;
+					textBox1.Visible = true;
+				}
+			}
+		}
+
+		private void ShowEditClientsForm(object sender, EventArgs e)
+		{
+			var clientId = clientsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+			if (clientId == null)
+			{
+				MessageBox.Show("Не найден ID клиента");
+			}
+			else
+			{
+				EditClient_Form editForm = new EditClient_Form();
+				DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
+				editForm.Surname_textBox.Text = selectRow.Cells["surname"].Value.ToString();
+				editForm.FirstName_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
+				editForm.patronymik_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
+				editForm.BirthDay_dateTimePicker.Text = selectRow.Cells["birth_date"].Value.ToString();
+				editForm.Phone_textBox.Text = selectRow.Cells["phone"].Value.ToString();
+				editForm.Email_textBox.Text = selectRow.Cells["email"].Value.ToString();
+				editForm.PassportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
+				editForm.Show();
+			}
+		}
+
+		private void AddMoneyToDeposit(object sender, EventArgs e)
+		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад уже закрыт");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад заморожен");
+				return;
+			}
+
+			if (_addMoneyForm == null || _addMoneyForm.IsDisposed)
+			{
+				_addMoneyForm = new AddMoneyToDeposit_Form(depositId);
+				_addMoneyForm.Show();
+			}
+			else
+			{
+				_addMoneyForm.Show();
+				_addMoneyForm.Focus();
+			}
+		}
+	}
 }

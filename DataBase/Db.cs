@@ -119,7 +119,38 @@ namespace deposit_app.DataBase
 			return transactionHistories;
 		}
 
-        public static void CloseDeposit(string personal_account)
+		public static List<TransactionHistory> GetTransactionHistoriesByDepositId(string depositId)
+		{
+			var transactionHistories = new List<TransactionHistory>();
+            string command = $"select * from transaction_history where deposit_id = '{depositId}'";
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				using (var cmd = new NpgsqlCommand(command, connection))
+				{
+					connection.Open();
+					NpgsqlDataReader reader = cmd.ExecuteReader();
+					while (reader.Read())
+					{
+						transactionHistories.Add(
+							new TransactionHistory
+							{
+								Id = (Guid)reader["Id"],
+								DepositId = (Guid)reader["deposit_id"],
+								TransactionType = (Guid)reader["type"],
+								DateTime = (DateTime)reader["datetime"],
+								Amount = (decimal)reader["amount"],
+								AmountBefore = (decimal)reader["amount_before"],
+								AmountAfter = (decimal)reader["amount_after"]
+							}
+						);
+
+					}
+				}
+			}
+			return transactionHistories;
+		}
+
+		public static void CloseDeposit(string personal_account)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -248,5 +279,45 @@ namespace deposit_app.DataBase
                 }
             }
         }
+
+        public static void AddMoneyToDeposit(string depositId, decimal value)
+        {
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				try
+				{
+					connection.Open();
+
+					using (var checkDepositExsist = new NpgsqlCommand("SELECT COUNT(*) FROM deposits WHERE id = @id::uuid", connection))
+					{
+						checkDepositExsist.Parameters.AddWithValue("id", depositId);
+						var count = (long)checkDepositExsist.ExecuteScalar();
+
+						if (count == 0)
+						{
+							MessageBox.Show("Вклад не найден!");
+							return;
+						}
+					}
+
+					using (var command = new NpgsqlCommand("call add_money_to_deposit(@value::decimal, @depositId::uuid);", connection))
+					{
+						command.Parameters.AddWithValue("value", value);
+						command.Parameters.AddWithValue("depositId", depositId);
+
+						command.ExecuteNonQuery();
+						MessageBox.Show($"Вклад успешно пополнен на {value}");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Ошибка: {ex.Message}");
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
 	}
 }

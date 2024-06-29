@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             ViewDepositsButton = new Button();
             AddDepositButton = new Button();
@@ -41,11 +40,13 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             panel1 = new Panel();
             panel2 = new Panel();
+            textBox1 = new TextBox();
             addClientButton = new Button();
             button_back_from_transaction_history = new Button();
             transactionHistoryGridView = new DataGridView();
             label2 = new Label();
             label3 = new Label();
+            contextMenuStrip2 = new ContextMenuStrip(components);
             ((System.ComponentModel.ISupportInitialize)clientsDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).BeginInit();
             panel1.SuspendLayout();
@@ -132,29 +133,20 @@
             clientsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             clientsDataGridView.Size = new Size(958, 259);
             clientsDataGridView.TabIndex = 5;
+            clientsDataGridView.MouseDown += ClientsDataGridView_MouseDown;
             // 
             // clientDepositsDataGridView
             // 
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.ActiveBorder;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            clientDepositsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             clientDepositsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            clientDepositsDataGridView.ColumnHeadersVisible = false;
             clientDepositsDataGridView.Location = new Point(11, 499);
             clientDepositsDataGridView.Margin = new Padding(3, 4, 3, 4);
             clientDepositsDataGridView.Name = "clientDepositsDataGridView";
-            clientDepositsDataGridView.ReadOnly = true;
             clientDepositsDataGridView.RowHeadersWidth = 51;
             clientDepositsDataGridView.RowTemplate.Height = 24;
             clientDepositsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             clientDepositsDataGridView.Size = new Size(959, 177);
             clientDepositsDataGridView.TabIndex = 6;
-            clientDepositsDataGridView.MouseDown += clientDepositsDataGridView_MouseDown;
+            clientDepositsDataGridView.MouseDown += ClientDepositsDataGridView_MouseDown;
             // 
             // contextMenuStrip1
             // 
@@ -174,6 +166,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(textBox1);
             panel2.Controls.Add(addClientButton);
             panel2.Controls.Add(button_back_from_transaction_history);
             panel2.Controls.Add(transactionHistoryGridView);
@@ -184,11 +177,23 @@
             panel2.TabIndex = 0;
             panel2.Visible = false;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(459, 140);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(329, 27);
+            textBox1.TabIndex = 2;
+            textBox1.Text = "У данного вклада нет истории";
+            textBox1.Visible = false;
+            // 
             // addClientButton
             // 
-            addClientButton.Location = new Point(459, 164);
+            addClientButton.Location = new Point(525, 219);
+            addClientButton.Margin = new Padding(3, 4, 3, 4);
             addClientButton.Name = "addClientButton";
-            addClientButton.Size = new Size(166, 29);
+            addClientButton.Size = new Size(190, 39);
             addClientButton.TabIndex = 2;
             addClientButton.Text = "Добавить клиента";
             addClientButton.UseVisualStyleBackColor = true;
@@ -236,11 +241,18 @@
             label3.TabIndex = 9;
             label3.Text = "Вклады клиента";
             // 
+            // contextMenuStrip2
+            // 
+            contextMenuStrip2.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(61, 4);
+            // 
             // Deposits_Form
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 691);
+            Controls.Add(panel2);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(panel1);
@@ -250,7 +262,6 @@
             Controls.Add(DepositHistoryButton);
             Controls.Add(AddDepositButton);
             Controls.Add(ViewDepositsButton);
-            Controls.Add(panel2);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Deposits_Form";
             Text = "Deposits_Form";
@@ -260,6 +271,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)transactionHistoryGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -282,6 +294,8 @@
 		private Button button_back_from_transaction_history;
         private Button CloseDeposit;
 		private ContextMenuStrip contextMenuStrip1;
+        private TextBox textBox1;
+		private ContextMenuStrip contextMenuStrip2;
         private Button addClientButton;
-    }
+	}
 }
