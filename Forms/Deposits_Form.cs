@@ -7,16 +7,22 @@ namespace deposit_app.Forms
 	public partial class Deposits_Form : Form
 	{
 		private AddDeposit_Form? _form;
+		private AddMoneyToDeposit_Form? _addMoneyForm;
 
 		public Deposits_Form()
 		{
 			InitializeComponent();
 			ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
 			ToolStripMenuItem closeDepositMenuItem = new ToolStripMenuItem("Закрыть вклад");
+			ToolStripMenuItem addMoneyToDepositMenuItem = new ToolStripMenuItem("Пополнить вклад");
+			ToolStripMenuItem takeMoneyFromDepositMenuItem = new ToolStripMenuItem("Снять деньги со вклада");
 			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
 			closeDepositMenuItem.Click += CloseDeposit_Click;
+			addMoneyToDepositMenuItem.Click += AddMoneyToDeposit;
 			contextMenuStrip1.Items.Add(showHistoryMenuItem);
 			contextMenuStrip1.Items.Add(closeDepositMenuItem);
+			contextMenuStrip1.Items.Add(addMoneyToDepositMenuItem);
+			contextMenuStrip1.Items.Add(takeMoneyFromDepositMenuItem);
 		}
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
@@ -27,7 +33,6 @@ namespace deposit_app.Forms
 			var clients = Db.GetClients();
 			clientsDataGridView.DataSource = clients;
 			clientsDataGridView.Columns["id"].Visible = false;
-			clientsDataGridView.Columns["password"].Visible = false;
 		}
 
 		private void ViewDepositsButton_Click(object sender, System.EventArgs e)
@@ -156,6 +161,40 @@ namespace deposit_app.Forms
 					transactionHistoryGridView.Visible = false;
 					textBox1.Visible = true;
 				}
+			}
+		}
+
+		private void AddMoneyToDeposit(object sender, EventArgs e)
+		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад уже закрыт");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад заморожен");
+				return;
+			}
+
+			if (_addMoneyForm == null || _addMoneyForm.IsDisposed)
+			{
+				_addMoneyForm = new AddMoneyToDeposit_Form(depositId);
+				_addMoneyForm.Show();
+			}
+			else
+			{
+				_addMoneyForm.Show();
+				_addMoneyForm.Focus();
 			}
 		}
 	}
