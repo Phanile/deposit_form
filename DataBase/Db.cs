@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using deposit_app.Entities;
 using Npgsql;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
@@ -30,8 +31,6 @@ namespace deposit_app.DataBase
                         client.phone = reader.GetString(5);
                         client.email = reader.GetString(6);
                         client.passport_data = reader.GetString(7);
-                        client.login = reader.GetString(8);
-                        client.password = reader.GetString(9);
                         clients.Add(client);
                     }
                 }
@@ -213,6 +212,46 @@ namespace deposit_app.DataBase
 
 						command.ExecuteNonQuery();
 						MessageBox.Show("Депозит успешно добавлен");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Ошибка: {ex.Message}");
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+
+        public static void AddMoneyToDeposit(string depositId, decimal value)
+        {
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				try
+				{
+					connection.Open();
+
+					using (var checkDepositExsist = new NpgsqlCommand("SELECT COUNT(*) FROM deposits WHERE id = @id::uuid", connection))
+					{
+						checkDepositExsist.Parameters.AddWithValue("id", depositId);
+						var count = (long)checkDepositExsist.ExecuteScalar();
+
+						if (count == 0)
+						{
+							MessageBox.Show("Вклад не найден!");
+							return;
+						}
+					}
+
+					using (var command = new NpgsqlCommand("call add_money_to_deposit(@value::decimal, @depositId::uuid);", connection))
+					{
+						command.Parameters.AddWithValue("value", value);
+						command.Parameters.AddWithValue("depositId", depositId);
+
+						command.ExecuteNonQuery();
+						MessageBox.Show($"Вклад успешно пополнен на {value}");
 					}
 				}
 				catch (Exception ex)

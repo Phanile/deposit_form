@@ -7,6 +7,7 @@ namespace deposit_app.Forms
 	public partial class Deposits_Form : Form
 	{
 		private AddDeposit_Form? _form;
+		private AddMoneyToDeposit_Form? _addMoneyForm;
 
 		public Deposits_Form()
 		{
@@ -15,8 +16,16 @@ namespace deposit_app.Forms
 			ToolStripMenuItem showEditMenuItem = new ToolStripMenuItem("Редактирование");
 			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
 			showEditMenuItem.Click += ShowEditClientsForm;
-			contextMenuStrip1.Items.Add(showHistoryMenuItem);
 			contextMenuStrip2.Items.Add(showEditMenuItem);
+			ToolStripMenuItem closeDepositMenuItem = new ToolStripMenuItem("Закрыть вклад");
+			ToolStripMenuItem addMoneyToDepositMenuItem = new ToolStripMenuItem("Пополнить вклад");
+			ToolStripMenuItem takeMoneyFromDepositMenuItem = new ToolStripMenuItem("Снять деньги со вклада");
+			closeDepositMenuItem.Click += CloseDeposit_Click;
+			addMoneyToDepositMenuItem.Click += AddMoneyToDeposit;
+			contextMenuStrip1.Items.Add(showHistoryMenuItem);
+			contextMenuStrip1.Items.Add(closeDepositMenuItem);
+			contextMenuStrip1.Items.Add(addMoneyToDepositMenuItem);
+			contextMenuStrip1.Items.Add(takeMoneyFromDepositMenuItem);
 		}
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
@@ -27,7 +36,6 @@ namespace deposit_app.Forms
 			var clients = Db.GetClients();
 			clientsDataGridView.DataSource = clients;
 			clientsDataGridView.Columns["id"].Visible = false;
-			clientsDataGridView.Columns["password"].Visible = false;
 		}
 
 		private void ViewDepositsButton_Click(object sender, System.EventArgs e)
@@ -172,12 +180,13 @@ namespace deposit_app.Forms
 				}
 			}
 		}
+
 		private void ShowEditClientsForm(object sender, EventArgs e)
 		{
 			var clientId = clientsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
 			if (clientId == null)
 			{
-				MessageBox.Show("Не найден ID вклада");
+				MessageBox.Show("Не найден ID клиента");
 			}
 			else
 			{
@@ -191,6 +200,40 @@ namespace deposit_app.Forms
 				editForm.Email_textBox.Text = selectRow.Cells["email"].Value.ToString();
 				editForm.PassportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
 				editForm.Show();
+			}
+		}
+
+		private void AddMoneyToDeposit(object sender, EventArgs e)
+		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад уже закрыт");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад заморожен");
+				return;
+			}
+
+			if (_addMoneyForm == null || _addMoneyForm.IsDisposed)
+			{
+				_addMoneyForm = new AddMoneyToDeposit_Form(depositId);
+				_addMoneyForm.Show();
+			}
+			else
+			{
+				_addMoneyForm.Show();
+				_addMoneyForm.Focus();
 			}
 		}
 	}
