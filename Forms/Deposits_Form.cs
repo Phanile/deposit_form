@@ -12,8 +12,11 @@ namespace deposit_app.Forms
 		{
 			InitializeComponent();
 			ToolStripMenuItem showHistoryMenuItem = new ToolStripMenuItem("Показать историю транзакций вклада");
+			ToolStripMenuItem closeDepositMenuItem = new ToolStripMenuItem("Закрыть вклад");
 			showHistoryMenuItem.Click += ShowDepositTransactionHistory;
+			closeDepositMenuItem.Click += CloseDeposit_Click;
 			contextMenuStrip1.Items.Add(showHistoryMenuItem);
+			contextMenuStrip1.Items.Add(closeDepositMenuItem);
 		}
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
