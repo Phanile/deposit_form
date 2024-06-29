@@ -229,11 +229,11 @@ namespace deposit_app.Forms
                 EditClient_Form editForm = new EditClient_Form();
                 DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
                 editForm.Surname_textBox.Text = selectRow.Cells["surname"].Value.ToString();
-                editForm.FirstName_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
-                editForm.patronymik_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
+                editForm.firstname_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
+                editForm.patronymic_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
                 editForm.BirthDay_dateTimePicker.Text = selectRow.Cells["birth_date"].Value.ToString();
-                editForm.Phone_textBox.Text = selectRow.Cells["phone"].Value.ToString();
-                editForm.Email_textBox.Text = selectRow.Cells["email"].Value.ToString();
+                editForm.phone_maskedTextBox.Text = selectRow.Cells["phone"].Value.ToString();
+                editForm.email_textBox.Text = selectRow.Cells["email"].Value.ToString();
                 editForm.PassportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
                 editForm.Show();
             }
