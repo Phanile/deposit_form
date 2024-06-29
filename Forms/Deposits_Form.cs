@@ -141,7 +141,7 @@ namespace deposit_app.Forms
             clientsDataGridView.Columns["passport_data"].HeaderText = "Паспорт";
         }
 
-        private void addClientButton_Click(object sender, EventArgs e)
+        private void AddClientButton_Click(object sender, EventArgs e)
         {
             if (_addClientForm == null || _addClientForm.IsDisposed)
             {
