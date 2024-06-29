@@ -120,7 +120,38 @@ namespace deposit_app.DataBase
 			return transactionHistories;
 		}
 
-        public static void CloseDeposit(string personal_account)
+		public static List<TransactionHistory> GetTransactionHistoriesByDepositId(string depositId)
+		{
+			var transactionHistories = new List<TransactionHistory>();
+            string command = $"select * from transaction_history where deposit_id = '{depositId}'";
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				using (var cmd = new NpgsqlCommand(command, connection))
+				{
+					connection.Open();
+					NpgsqlDataReader reader = cmd.ExecuteReader();
+					while (reader.Read())
+					{
+						transactionHistories.Add(
+							new TransactionHistory
+							{
+								Id = (Guid)reader["Id"],
+								DepositId = (Guid)reader["deposit_id"],
+								TransactionType = (Guid)reader["type"],
+								DateTime = (DateTime)reader["datetime"],
+								Amount = (decimal)reader["amount"],
+								AmountBefore = (decimal)reader["amount_before"],
+								AmountAfter = (decimal)reader["amount_after"]
+							}
+						);
+
+					}
+				}
+			}
+			return transactionHistories;
+		}
+
+		public static void CloseDeposit(string personal_account)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {

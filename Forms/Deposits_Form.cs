@@ -62,6 +62,7 @@ namespace deposit_app.Forms
 
 		private void DepositHistoryButton_Click(object sender, System.EventArgs e)
 		{
+			textBox1.Visible = false;
 			panel2.Visible = true;
 			var histories = Db.GetTransactionHistories();
 			transactionHistoryGridView.DataSource = histories;
@@ -130,7 +131,29 @@ namespace deposit_app.Forms
 
 		private void ShowDepositTransactionHistory(object sender, EventArgs e)
 		{
-			var depositId = clientDepositsDataGridView.SelectedRows[0].Cells[0].Value.ToString();
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
+
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+			}
+			else
+			{
+				panel2.Visible = true;
+				var histories = Db.GetTransactionHistoriesByDepositId(depositId);
+
+				if (histories.Count > 0)
+				{
+					textBox1.Visible = false;
+					transactionHistoryGridView.Visible = true;
+					transactionHistoryGridView.DataSource = histories;
+				}
+				else
+				{
+					transactionHistoryGridView.Visible = false;
+					textBox1.Visible = true;
+				}
+			}
 		}
 	}
 }

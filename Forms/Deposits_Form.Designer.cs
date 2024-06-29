@@ -39,6 +39,7 @@
 			contextMenuStrip1 = new ContextMenuStrip(components);
 			panel1 = new Panel();
 			panel2 = new Panel();
+			textBox1 = new TextBox();
 			button_back_from_transaction_history = new Button();
 			transactionHistoryGridView = new DataGridView();
 			label2 = new Label();
@@ -143,6 +144,7 @@
 			// 
 			// panel2
 			// 
+			panel2.Controls.Add(textBox1);
 			panel2.Controls.Add(button_back_from_transaction_history);
 			panel2.Controls.Add(transactionHistoryGridView);
 			panel2.Location = new Point(0, 0);
@@ -150,6 +152,16 @@
 			panel2.Size = new Size(859, 526);
 			panel2.TabIndex = 0;
 			panel2.Visible = false;
+			// 
+			// textBox1
+			// 
+			textBox1.Location = new Point(402, 105);
+			textBox1.Name = "textBox1";
+			textBox1.ReadOnly = true;
+			textBox1.Size = new Size(288, 23);
+			textBox1.TabIndex = 2;
+			textBox1.Text = "У данного вклада нет истории";
+			textBox1.Visible = false;
 			// 
 			// button_back_from_transaction_history
 			// 
@@ -195,6 +207,7 @@
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(859, 518);
+			Controls.Add(panel2);
 			Controls.Add(label3);
 			Controls.Add(label2);
 			Controls.Add(panel1);
@@ -204,7 +217,6 @@
 			Controls.Add(DepositHistoryButton);
 			Controls.Add(AddDepositButton);
 			Controls.Add(ViewDepositsButton);
-			Controls.Add(panel2);
 			Name = "Deposits_Form";
 			Text = "Deposits_Form";
 			Load += Deposits_Form_Load;
@@ -213,6 +225,7 @@
 			panel1.ResumeLayout(false);
 			panel1.PerformLayout();
 			panel2.ResumeLayout(false);
+			panel2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)transactionHistoryGridView).EndInit();
 			ResumeLayout(false);
 			PerformLayout();
@@ -235,5 +248,6 @@
 		private Button button_back_from_transaction_history;
         private Button CloseDeposit;
 		private ContextMenuStrip contextMenuStrip1;
+		private TextBox textBox1;
 	}
 }
