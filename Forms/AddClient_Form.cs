@@ -7,6 +7,7 @@ namespace deposit_app.Forms
     public partial class AddClient_Form : Form
     {
         public event EventHandler ClientAdded;
+        
 
         public AddClient_Form()
         {
@@ -16,8 +17,10 @@ namespace deposit_app.Forms
         {
             ClientAdded?.Invoke(this, EventArgs.Empty);
         }
+		
 
-        private void SaveChange_button_Click(object sender, EventArgs e)
+
+		private void SaveChange_button_Click(object sender, EventArgs e)
         {
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             Regex emailRegex = new Regex(emailPattern, RegexOptions.IgnoreCase);

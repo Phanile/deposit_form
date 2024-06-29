@@ -318,6 +318,110 @@ namespace deposit_app.DataBase
 					connection.Close();
 				}
 			}
+            
+		}
+        public static Guid? GetClientIdByEmail(string email)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                using (var command = new NpgsqlCommand("SELECT get_client_id_by_email(@mail)", connection))
+                {
+                    command.Parameters.AddWithValue("mail", email);
+                    try
+                    {
+                        connection.Open();
+                        var result = command.ExecuteScalar();
+
+                        if (result != DBNull.Value)
+                        {
+                            return (Guid)result;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                        return null;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+        }
+		public static void EditClient(Client client)
+		{
+            using var connection = new NpgsqlConnection(_connectionString);
+            {
+				try
+				{
+					connection.Open();
+					using (var command = new NpgsqlCommand("CALL update_client(" +
+                                                                          "@client_id,"+
+                                                                          "@surname::varchar, " +
+																		  "@firstname::varchar, " +
+																		  "@patronymic::varchar, " +
+																		  "@birth_date::date, " +
+																		  "@phone::varchar, " +
+																		  "@email::varchar, " +
+																		  "@passport_data::varchar)", connection))
+					{
+						command.Parameters.AddWithValue("client_id", GetClientIdByEmail(client.email));
+						command.Parameters.AddWithValue("surname", client.surname);
+						command.Parameters.AddWithValue("firstname", client.first_name);
+						command.Parameters.AddWithValue("patronymic", client.patronymic);
+						command.Parameters.AddWithValue("birth_date", $"{client.birth_date.Year}-{client.birth_date.Month}-{client.birth_date.Day}");
+						command.Parameters.AddWithValue("phone", client.phone);
+						command.Parameters.AddWithValue("email", client.email);
+						command.Parameters.AddWithValue("passport_data", client.passport_data);
+
+						command.ExecuteNonQuery();
+						MessageBox.Show("Клиент успешно изменён");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Ошибка: {ex.Message}");
+				}
+				finally
+				{
+					connection.Close();
+				}
+			}
+		}
+		public static bool ClientExistsWithDetails(Guid id,string email,string phone,string passportData)
+		{
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				using (var command = new NpgsqlCommand("SELECT client_exists_with_details(@id,@email,@phone,@passportData)", connection))
+				{
+					command.Parameters.AddWithValue("id", GetClientIdByEmail(email));
+					command.Parameters.AddWithValue("email", email);
+					command.Parameters.AddWithValue("phone", phone);
+					command.Parameters.AddWithValue("passportData", passportData);
+					try
+					{
+						connection.Open();
+						var result = command.ExecuteScalar();
+
+						return (bool)result;
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show($"Ошибка: {ex.Message}");
+						//return false;
+					}
+					finally
+					{
+						connection.Close();
+					}
+                    return false;
+				}
+			}
 		}
 	}
 }
