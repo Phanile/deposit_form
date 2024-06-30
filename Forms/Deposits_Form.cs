@@ -30,21 +30,11 @@ namespace deposit_app.Forms
 		}
 
 		private void Deposits_Form_Load(object sender, System.EventArgs e)
-		{
-			clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-			clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-			var clients = Db.GetClients();
-			clientsDataGridView.DataSource = clients;
-			clientsDataGridView.Columns["id"].Visible = false;
-		}
-
-		private void Deposits_Form_Load(object sender, System.EventArgs e)
         {
             clientDepositsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             var clients = Db.GetClients();
             clientsDataGridView.DataSource = clients;
-            clientsDataGridView.Columns["id"].Visible = false;
             clientsDataGridView.Columns["id"].Visible = false;
             clientsDataGridView.Columns["surname"].HeaderText = "Фамилия";
             clientsDataGridView.Columns["first_name"].HeaderText = "Имя";
@@ -159,7 +149,7 @@ namespace deposit_app.Forms
         	}
 		}
 
-<<<<<<< HEAD
+
 		private void RedrawClients()
 		{
 			var clients = Db.GetClients();
