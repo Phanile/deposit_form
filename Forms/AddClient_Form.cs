@@ -8,7 +8,6 @@ namespace deposit_app.Forms
 	{
 		public event EventHandler ClientAdded;
 
-
 		public AddClient_Form()
 		{
 			InitializeComponent();
@@ -18,8 +17,6 @@ namespace deposit_app.Forms
 		{
 			ClientAdded?.Invoke(this, EventArgs.Empty);
 		}
-
-
 
 		private void SaveChange_button_Click(object sender, EventArgs e)
 		{
@@ -46,16 +43,35 @@ namespace deposit_app.Forms
 				errors.Add("Введите Отчество");
 			}
 
-			DateTime birthDate;
-			DateTime.TryParse(birthDate_maskedTextBox.Text, out birthDate);
-			if (birthDate > DateTime.Now)
+			DateTime birthDate = DateTime.Now;
+			var birthDateString = birthDate_maskedTextBox.Text.Split('.');
+			string day = birthDateString[0];
+			string month = birthDateString[1];
+			string year = birthDateString[2];
+			if (string.IsNullOrWhiteSpace(day) || string.IsNullOrWhiteSpace(month) || string.IsNullOrWhiteSpace(year))
 			{
-				errors.Add("Дата рождения не может быть в будущем");
+				errors.Add("Введите дату рождения");
 			}
-			else if (birthDate.Year == 1)
+			else
 			{
-				errors.Add("Ошибка ввода даты рождения");
-			}
+                DateTime.TryParse(birthDate_maskedTextBox.Text, out birthDate);
+				int _day = int.Parse(day);
+				int _month = int.Parse(month);
+				int _year = int.Parse(year);
+				int _daysInMonth = DateTime.DaysInMonth(_year, _month);
+                if (_month > 12)
+                {
+                    errors.Add("Месяц не может быль больше 12");
+                }
+				else if (_day > _daysInMonth)
+				{
+					errors.Add($"Дней в этом месяце не может быть больше {_daysInMonth}");
+				}
+                else if (birthDate > DateTime.Now)
+                {
+                    errors.Add("Дата рождения не может быть в будущем");
+                }
+            }
 
 			string phone = $"+7{Regex.Replace(phone_maskedTextBox.Text, "[^0-9]", "")}";
 			if (phone.Equals("+7") || phone.Length != 12)
@@ -83,27 +99,27 @@ namespace deposit_app.Forms
 				errors.Add("Неправильно введены паспортные данные(10 символов)");
 			}
 
-			if (errors.Count > 0)
+			if (errors.Count == 0)
 			{
-				MessageBox.Show(string.Join('\n', errors));
+                var client = new Client
+                {
+                    surname = surname,
+                    first_name = firstname,
+                    patronymic = patronymic,
+                    birth_date = birthDate,
+                    phone = phone,
+                    email = email,
+                    passport_data = passportData
+                };
+
+                Db.AddClient(client);
+                OnClientAdded();
+                this.Close();
 				return;
 			}
-
-			var client = new Client
-			{
-				surname = surname,
-				first_name = firstname,
-				patronymic = patronymic,
-				birth_date = birthDate,
-				phone = phone,
-				email = email,
-				passport_data = passportData
-			};
-
-			Db.AddClient(client);
-			OnClientAdded();
-			this.Close();
-		}
+            MessageBox.Show(string.Join('\n', errors));
+            return;
+        }
 
 		private void passportSeries_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
 		{
