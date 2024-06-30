@@ -18,6 +18,7 @@ namespace deposit_app.Forms
 	public partial class EditClient_Form : Form
 	{
 		public event EventHandler ClientEdit;
+		string _mail;
 		private void OnClientEdit()
 		{
 			ClientEdit?.Invoke(this, EventArgs.Empty);
@@ -26,9 +27,9 @@ namespace deposit_app.Forms
 		{
 			InitializeComponent();
 		}
-		private void EditClient_Form_Load(object sender, System.EventArgs e)
+		public void EditClient_Form_Load(object sender, System.EventArgs e)
 		{
-
+			_mail = email_textBox.Text;
 		}
 
 		private void surname_textBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -49,7 +50,7 @@ namespace deposit_app.Forms
 		}
 		private void phone_maskedTextBox_MouseClick(object sender, MouseEventArgs e)
 		{
-			
+
 		}
 
 		private void SaveChanged_btn_Click(object sender, EventArgs e)
@@ -97,15 +98,17 @@ namespace deposit_app.Forms
 				MessageBox.Show("Неправильно введена электронная почта");
 				return;
 			}
-			string passportData = PassportData_textBox.Text;
+			string passportData = Regex.Replace(_passportData_textBox.Text, "-", "");
+			
 
 			if (string.IsNullOrWhiteSpace(passportData))
 			{
 				MessageBox.Show("Введите паспортные даннеы клиента");
 			}
-
+			Guid? ClientId = Db.GetClientIdByEmail(_mail);
 			var client = new Client
 			{
+				id = (Guid)ClientId,
 				surname = surname,
 				first_name = first_name,
 				patronymic = patronymiс,
@@ -167,5 +170,7 @@ namespace deposit_app.Forms
 		{
 			phone_maskedTextBox.SelectionStart = 0;
 		}
+
+		
 	}
 }

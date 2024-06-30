@@ -40,9 +40,9 @@
 			SaveChanged_btn = new Button();
 			phone_maskedTextBox = new MaskedTextBox();
 			label7 = new Label();
-			PassportData_textBox = new TextBox();
 			email_textBox = new TextBox();
 			label6 = new Label();
+			_passportData_textBox = new MaskedTextBox();
 			SuspendLayout();
 			// 
 			// label1
@@ -158,13 +158,6 @@
 			label7.TabIndex = 6;
 			label7.Text = "Паспортные данные";
 			// 
-			// PassportData_textBox
-			// 
-			PassportData_textBox.Location = new Point(25, 349);
-			PassportData_textBox.Name = "PassportData_textBox";
-			PassportData_textBox.Size = new Size(238, 23);
-			PassportData_textBox.TabIndex = 15;
-			// 
 			// email_textBox
 			// 
 			email_textBox.Location = new Point(30, 298);
@@ -184,16 +177,25 @@
 			label6.TabIndex = 31;
 			label6.Text = "Электронная почта";
 			// 
+			// _passportData_textBox
+			// 
+			_passportData_textBox.Location = new Point(26, 348);
+			_passportData_textBox.Mask = "9999-999999";
+			_passportData_textBox.Name = "_passportData_textBox";
+			_passportData_textBox.Size = new Size(238, 23);
+			_passportData_textBox.TabIndex = 33;
+			// _passportData_textBox.MaskInputRejected += _passportData_textBox_MaskInputRejected;
+			// 
 			// EditClient_Form
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(289, 465);
+			Controls.Add(_passportData_textBox);
 			Controls.Add(email_textBox);
 			Controls.Add(label6);
 			Controls.Add(phone_maskedTextBox);
 			Controls.Add(SaveChanged_btn);
-			Controls.Add(PassportData_textBox);
 			Controls.Add(BirthDay_dateTimePicker);
 			Controls.Add(patronymic_textBox);
 			Controls.Add(firstname_textBox);
@@ -225,8 +227,8 @@
 		private Button SaveChanged_btn;
 		public MaskedTextBox phone_maskedTextBox;
 		private Label label7;
-		public TextBox PassportData_textBox;
 		public TextBox email_textBox;
 		private Label label6;
+		public MaskedTextBox _passportData_textBox;
 	}
 }

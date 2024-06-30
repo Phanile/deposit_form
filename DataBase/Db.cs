@@ -375,7 +375,7 @@ namespace deposit_app.DataBase
 																		  "@email::varchar, " +
 																		  "@passport_data::varchar)", connection))
 					{
-						command.Parameters.AddWithValue("client_id", GetClientIdByEmail(client.email));
+						command.Parameters.AddWithValue("client_id", client.id);
 						command.Parameters.AddWithValue("surname", client.surname);
 						command.Parameters.AddWithValue("firstname", client.first_name);
 						command.Parameters.AddWithValue("patronymic", client.patronymic);
@@ -404,7 +404,7 @@ namespace deposit_app.DataBase
 			{
 				using (var command = new NpgsqlCommand("SELECT client_exists_with_details(@id,@email,@phone,@passportData)", connection))
 				{
-					command.Parameters.AddWithValue("id", GetClientIdByEmail(email));
+					command.Parameters.AddWithValue("id", id);
 					command.Parameters.AddWithValue("email", email);
 					command.Parameters.AddWithValue("phone", phone);
 					command.Parameters.AddWithValue("passportData", passportData);
