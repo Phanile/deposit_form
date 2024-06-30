@@ -58,14 +58,13 @@ namespace deposit_app.Forms
 				int _day = int.Parse(day);
 				int _month = int.Parse(month);
 				int _year = int.Parse(year);
-				int _daysInMonth = DateTime.DaysInMonth(_year, _month);
                 if (_month > 12)
                 {
                     errors.Add("Месяц не может быль больше 12");
                 }
-				else if (_day > _daysInMonth)
+				else if (_day > DateTime.DaysInMonth(_year, _month))
 				{
-					errors.Add($"Дней в этом месяце не может быть больше {_daysInMonth}");
+					errors.Add($"Дней в этом месяце не может быть больше {DateTime.DaysInMonth(_year, _month)}");
 				}
                 else if (birthDate > DateTime.Now)
                 {
