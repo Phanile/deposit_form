@@ -30,6 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             label1 = new Label();
             ViewDepositsButton = new Button();
             AddDepositButton = new Button();
@@ -136,10 +137,20 @@
             // 
             // clientDepositsDataGridView
             // 
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ActiveBorder;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            clientDepositsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             clientDepositsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            clientDepositsDataGridView.EnableHeadersVisualStyles = false;
             clientDepositsDataGridView.Location = new Point(11, 499);
             clientDepositsDataGridView.Margin = new Padding(3, 4, 3, 4);
             clientDepositsDataGridView.Name = "clientDepositsDataGridView";
+            clientDepositsDataGridView.ReadOnly = true;
             clientDepositsDataGridView.RowHeadersWidth = 51;
             clientDepositsDataGridView.RowTemplate.Height = 24;
             clientDepositsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
