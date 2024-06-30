@@ -1,7 +1,6 @@
 ﻿using System.Configuration;
 using deposit_app.Entities;
 using Npgsql;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
