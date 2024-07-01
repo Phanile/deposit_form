@@ -1,6 +1,5 @@
 ﻿using deposit_app.Const;
 using deposit_app.DataBase;
-using System.Windows.Forms;
 
 namespace deposit_app.Forms
 {
@@ -10,6 +9,8 @@ namespace deposit_app.Forms
 		private AddClient_Form? _addClientForm;
 		private AddMoneyToDeposit_Form? _addMoneyForm;
 		private EditClient_Form? _editClientForm;
+		private TakeMoneyForm? _takeMoneyForm;
+
 		public Deposits_Form()
 		{
 			InitializeComponent();
@@ -23,6 +24,7 @@ namespace deposit_app.Forms
 			ToolStripMenuItem takeMoneyFromDepositMenuItem = new ToolStripMenuItem("Снять деньги со вклада");
 			closeDepositMenuItem.Click += CloseDeposit_Click;
 			addMoneyToDepositMenuItem.Click += AddMoneyToDeposit;
+			takeMoneyFromDepositMenuItem.Click += TakeMoneyFromDeposit;
 			contextMenuStrip1.Items.Add(showHistoryMenuItem);
 			contextMenuStrip1.Items.Add(closeDepositMenuItem);
 			contextMenuStrip1.Items.Add(addMoneyToDepositMenuItem);
@@ -302,9 +304,24 @@ namespace deposit_app.Forms
 				return;
 			}
 
+			var depositType = Db.GetDepositTypeByDepositId(depositId);
+
+			if (depositType == null)
+			{
+				return;
+			}
+			else
+			{
+				if (!depositType.Addable)
+				{
+					MessageBox.Show("Ошибка! Данный тип вклада нельзя пополнить");
+					return;
+				}
+			}
+
 			if (_addMoneyForm == null || _addMoneyForm.IsDisposed)
 			{
-				_addMoneyForm = new AddMoneyToDeposit_Form(depositId);
+				_addMoneyForm = new AddMoneyToDeposit_Form(depositId, depositType.MaxBalance);
 				_addMoneyForm.Show();
 			}
 			else
@@ -314,11 +331,53 @@ namespace deposit_app.Forms
 			}
 		}
 
-		private void panel2_Paint(object sender, PaintEventArgs e)
+		private void TakeMoneyFromDeposit(object sender, EventArgs e)
 		{
+			var depositId = clientDepositsDataGridView.SelectedRows[0]?.Cells[0]?.Value?.ToString();
 
+			if (depositId == null)
+			{
+				MessageBox.Show("Не найден ID вклада");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад уже закрыт");
+				return;
+			}
+
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			{
+				MessageBox.Show("Ошибка! Вклад заморожен");
+				return;
+			}
+
+			var depositType = Db.GetDepositTypeByDepositId(depositId);
+
+			if (depositType == null)
+			{
+				return;
+			}
+			else
+			{
+				if (!depositType.Removable)
+				{
+					MessageBox.Show("Ошибка! С вклада данного типа нельзя снять средства");
+					return;
+				}
+			}
+
+			if (_takeMoneyForm == null || _takeMoneyForm.IsDisposed)
+			{
+				_takeMoneyForm = new TakeMoneyForm(depositId);
+				_takeMoneyForm.Show();
+			}
+			else
+			{
+				_takeMoneyForm.Show();
+				_takeMoneyForm.Focus();
+			}
 		}
-
-		
 	}
 }

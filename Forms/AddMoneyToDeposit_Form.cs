@@ -5,24 +5,34 @@ namespace deposit_app.Forms
 	public partial class AddMoneyToDeposit_Form : Form
 	{
 		private string _depositId;
-		public AddMoneyToDeposit_Form(string depositId)
+		private decimal _maxBalance;
+		public AddMoneyToDeposit_Form(string depositId, decimal maxBalance)
 		{
 			InitializeComponent();
 			_depositId = depositId;
+			_maxBalance = maxBalance;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
 			if (decimal.TryParse(textBox1.Text, out decimal result))
 			{
+				if (result > _maxBalance)
+				{
+					MessageBox.Show("Сумма депозита не может превышать лимит для вклада данного типа");
+					return;
+				}
+
 				if (result == 0)
 				{
 					MessageBox.Show("Сумма депозита не может быть 0");
+					return;
 				}
 
 				if (result < 0)
 				{
 					MessageBox.Show("Сумма депозита не может быть отрицательной");
+					return;
 				}
 
 				if (result > 0)

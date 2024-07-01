@@ -212,7 +212,7 @@ namespace deposit_app.DataBase
 						command.Parameters.AddWithValue("_timeframe", timeframe);
 
 						command.ExecuteNonQuery();
-						MessageBox.Show("Депозит успешно добавлен");
+						MessageBox.Show("Вклад успешно добавлен");
 					}
 				}
 				catch (Exception ex)
@@ -324,7 +324,50 @@ namespace deposit_app.DataBase
 			}
             
 		}
-        public static Guid? GetClientIdByEmail(string email)
+
+		public static void TakeMoneyFromDeposit(string depositId, decimal value)
+		{
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				try
+				{
+					connection.Open();
+
+					using (var checkDepositExsist = new NpgsqlCommand("SELECT COUNT(*) FROM deposits WHERE id = @id::uuid", connection))
+					{
+						checkDepositExsist.Parameters.AddWithValue("id", depositId);
+						var count = (long)checkDepositExsist.ExecuteScalar();
+
+						if (count == 0)
+						{
+							MessageBox.Show("Вклад не найден!");
+							return;
+						}
+					}
+
+					using (var command = new NpgsqlCommand("call take_money_from_deposit(@value::decimal, @depositId::uuid);", connection))
+					{
+						command.Parameters.AddWithValue("value", value);
+						command.Parameters.AddWithValue("depositId", depositId);
+
+						command.ExecuteNonQuery();
+						MessageBox.Show($"Со вклада успешно сняли {value}");
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Ошибка: {ex.Message}");
+				}
+				finally
+				{
+					connection.Close();
+					_logger.Info($"Со вклада {depositId} успешно сняли {value}");
+				}
+			}
+
+		}
+
+		public static Guid? GetClientIdByEmail(string email)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
@@ -417,7 +460,6 @@ namespace deposit_app.DataBase
 					catch (Exception ex)
 					{
 						MessageBox.Show($"Ошибка: {ex.Message}");
-						//return false;
 					}
 					finally
 					{
@@ -425,6 +467,67 @@ namespace deposit_app.DataBase
 					}
                     return false;
 				}
+			}
+		}
+
+		public static DepositType? GetDepositTypeByDepositId(string depositId)
+		{
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				connection.Open();
+
+				using (var checkDepositExsist = new NpgsqlCommand("select count(*) from deposits where id = @id::uuid", connection))
+				{
+					checkDepositExsist.Parameters.AddWithValue("id", depositId);
+					var count = (long)checkDepositExsist.ExecuteScalar();
+
+					if (count == 0)
+					{
+						MessageBox.Show("Вклад не найден!");
+						return null;
+					}
+				}
+
+				var depositTypeId = Guid.Empty;
+
+				using (var getDepositTypeCommand = new NpgsqlCommand("select deposit_type from deposits where id = @id::uuid", connection))
+				{
+					getDepositTypeCommand.Parameters.AddWithValue("id", depositId);
+					depositTypeId = (Guid)getDepositTypeCommand.ExecuteScalar();
+
+					if (depositTypeId == Guid.Empty || depositTypeId == null)
+					{
+						MessageBox.Show("Тип вклада не определен!");
+						return null;
+					}
+				}
+
+				DepositType? depositType = null;
+
+				using (var cmd = new NpgsqlCommand("select * from deposit_types where id = @id::uuid", connection))
+				{
+					cmd.Parameters.AddWithValue("id", depositTypeId);
+					NpgsqlDataReader reader = cmd.ExecuteReader();
+					while (reader.Read())
+					{
+
+						depositType = new DepositType
+						{
+							Id = (Guid)reader["Id"],
+							Name = (string)reader["name"],
+							Description = (string)reader["description"],
+							Rate = (decimal)reader["rate"],
+							Removable = (bool)reader["removable"],
+							Addable = (bool)reader["addable"],
+							MinBalance = (decimal)reader["min_balance"],
+							MaxBalance = (decimal)reader["max_balance"],
+							TimeFrame = (short)reader["timeframe"],
+							NonDeductibleBalance = (decimal)reader["non_deductible_balance"]
+						};
+					}
+				}
+
+				return depositType;
 			}
 		}
 	}
