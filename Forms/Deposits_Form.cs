@@ -264,13 +264,13 @@ namespace deposit_app.Forms
 					
 					_editClientForm = new EditClient_Form();
 					DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
-					_editClientForm.Surname_textBox.Text = selectRow.Cells["surname"].Value.ToString();
-					_editClientForm.firstname_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
-					_editClientForm.patronymic_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
-					_editClientForm.BirthDay_dateTimePicker.Text = selectRow.Cells["birth_date"].Value.ToString();
-					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["phone"].Value.ToString();
-					_editClientForm.email_textBox.Text = selectRow.Cells["email"].Value.ToString();
-					_editClientForm._passportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
+					_editClientForm.Surname_textBox.Text = selectRow.Cells["Surname"].Value.ToString();
+					_editClientForm.firstname_textBox.Text = selectRow.Cells["FirstName"].Value.ToString();
+					_editClientForm.patronymic_textBox.Text = selectRow.Cells["Patronymic"].Value.ToString();
+					_editClientForm.BirthDay_dateTimePicker.Text = selectRow.Cells["BirthDate"].Value.ToString();
+					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["Phone"].Value.ToString();
+					_editClientForm.email_textBox.Text = selectRow.Cells["Email"].Value.ToString();
+					_editClientForm._passportData_textBox.Text = selectRow.Cells["PassportData"].Value.ToString();
 					_editClientForm.ClientEdit += FormEditClient_ClientEdit;
 					_editClientForm.Show();
 				}
