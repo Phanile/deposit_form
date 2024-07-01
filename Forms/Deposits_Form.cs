@@ -92,6 +92,7 @@ namespace deposit_app.Forms
 		private void DepositHistoryButton_Click(object sender, System.EventArgs e)
 		{
 			textBox1.Visible = false;
+			transactionHistoryGridView.Visible = true;
 			panel2.Visible = true;
 			var histories = Db.GetTransactionHistories();
 			transactionHistoryGridView.DataSource = histories;
