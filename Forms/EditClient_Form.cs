@@ -108,18 +108,18 @@ namespace deposit_app.Forms
 			Guid? ClientId = Db.GetClientIdByEmail(_mail);
 			var client = new Client
 			{
-				id = (Guid)ClientId,
-				surname = surname,
-				first_name = first_name,
-				patronymic = patronymiс,
-				birth_date = birthday,
-				phone = phone,
-				email = email,
-				passport_data = passportData
+				Id = (Guid)ClientId,
+				Surname = surname,
+				FirstName = first_name,
+				Patronymic = patronymiс,
+				BirthDate = birthday,
+				Phone = phone,
+				Email = email,
+				PassportData = passportData
 			};
 
 			//Db.GetClientIdByEmail(email);
-			bool check = Db.ClientExistsWithDetails(client.id, client.email, client.phone, client.passport_data);
+			bool check = Db.ClientExistsWithDetails(client.Id, client.Email, client.Phone, client.PassportData);
 			if (!check)
 			{
 				Db.EditClient(client);

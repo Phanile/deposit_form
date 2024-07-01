@@ -4,13 +4,13 @@ namespace deposit_app.Entities
 {
     internal class Client
     {
-        public Guid id {  get; set; }
-        public string surname {  get; set; }
-        public string first_name { get; set; }
-        public string patronymic {  get; set; }
-        public DateTime birth_date {  get; set; }
-        public string phone { get; set; }
-        public string email { get; set; }
-        public string passport_data { get; set; }
+        public Guid Id {  get; set; }
+        public string Surname {  get; set; }
+        public string FirstName { get; set; }
+        public string Patronymic {  get; set; }
+        public DateTime BirthDate {  get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string PassportData { get; set; }
     }
 }
