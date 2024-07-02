@@ -23,14 +23,14 @@ namespace deposit_app.DataBase
                     while (reader.Read())
                     {
                         var client = new Client();
-                        client.id = reader.GetGuid(0);
-                        client.surname = reader.GetString(1);
-                        client.first_name = reader.GetString(2);
-                        client.patronymic = reader.GetString(3);
-                        client.birth_date = reader.GetDateTime(4);
-                        client.phone = reader.GetString(5);
-                        client.email = reader.GetString(6);
-                        client.passport_data = reader.GetString(7);
+                        client.Id = reader.GetGuid(0);
+                        client.Surname = reader.GetString(1);
+                        client.FirstName = reader.GetString(2);
+                        client.Patronymic = reader.GetString(3);
+                        client.BirthDate = reader.GetDateTime(4);
+                        client.Phone = reader.GetString(5);
+                        client.Email = reader.GetString(6);
+                        client.PassportData = reader.GetString(7);
                         clients.Add(client);
                     }
                 }
@@ -61,17 +61,17 @@ namespace deposit_app.DataBase
                         while (reader.Read())
                         {
                             var deposit = new Deposit();
-                            deposit.id = reader.GetGuid(0);
-                            deposit.client_id = reader.GetGuid(1);
-                            deposit.deposit_type = reader.GetString(2);
-                            deposit.currency = reader.GetString(3);
-                            deposit.status = reader.GetString(4);
-                            deposit.personal_account = reader.GetString(5);
-                            deposit.initial_balance = reader.GetDecimal(6);
-                            deposit.curr_balance = reader.GetDecimal(7);
-                            deposit.open_date = reader.GetDateTime(8);
-                            deposit.timeframe = reader.GetInt16(10);
-                            deposit.close_date = reader.IsDBNull(9) ? deposit.open_date.AddDays(deposit.timeframe) : reader.GetDateTime(9);
+                            deposit.Id = reader.GetGuid(0);
+                            deposit.ClientId = reader.GetGuid(1);
+                            deposit.DepositType = reader.GetString(2);
+                            deposit.Currency = reader.GetString(3);
+                            deposit.Status = reader.GetString(4);
+                            deposit.PersonalAccount = reader.GetString(5);
+                            deposit.InitialBalance = reader.GetDecimal(6);
+                            deposit.CurrBalance = reader.GetDecimal(7);
+                            deposit.OpenDate = reader.GetDateTime(8);
+                            deposit.TimeFrame = reader.GetInt16(10);
+                            deposit.CloseDate = reader.IsDBNull(9) ? deposit.OpenDate.AddDays(deposit.TimeFrame) : reader.GetDateTime(9);
                             clientDeposits.Add(deposit);
                         }
                     }
@@ -238,9 +238,9 @@ namespace deposit_app.DataBase
 
                     using (var checkClientExistsCommand = new NpgsqlCommand("SELECT * FROM check_client_exists(@passport_data, @email, @phone)", connection))
                     {
-                        checkClientExistsCommand.Parameters.AddWithValue("passport_data", client.passport_data);
-                        checkClientExistsCommand.Parameters.AddWithValue("email", client.email);
-                        checkClientExistsCommand.Parameters.AddWithValue("phone", client.phone);
+                        checkClientExistsCommand.Parameters.AddWithValue("passport_data", client.PassportData);
+                        checkClientExistsCommand.Parameters.AddWithValue("email", client.Email);
+                        checkClientExistsCommand.Parameters.AddWithValue("phone", client.Phone);
 
                         var userCount = (bool)checkClientExistsCommand.ExecuteScalar();
 
@@ -259,13 +259,13 @@ namespace deposit_app.DataBase
                                                                           "@email::varchar, " +
                                                                           "@passport_data::varchar)", connection))
                     {
-                        command.Parameters.AddWithValue("surname", client.surname);
-                        command.Parameters.AddWithValue("firstname", client.first_name);
-                        command.Parameters.AddWithValue("patronymic", client.patronymic);
-                        command.Parameters.AddWithValue("birth_date", $"{client.birth_date.Year}-{client.birth_date.Month}-{client.birth_date.Day}");
-                        command.Parameters.AddWithValue("phone", client.phone);
-                        command.Parameters.AddWithValue("email", client.email);
-                        command.Parameters.AddWithValue("passport_data", client.passport_data);
+                        command.Parameters.AddWithValue("surname", client.Surname);
+                        command.Parameters.AddWithValue("firstname", client.FirstName);
+                        command.Parameters.AddWithValue("patronymic", client.Patronymic);
+                        command.Parameters.AddWithValue("birth_date", $"{client.BirthDate.Year}-{client.BirthDate.Month}-{client.BirthDate.Day}");
+                        command.Parameters.AddWithValue("phone", client.Phone);
+                        command.Parameters.AddWithValue("email", client.Email);
+                        command.Parameters.AddWithValue("passport_data", client.PassportData);
 
                         command.ExecuteNonQuery();
                         MessageBox.Show("Клиент успешно добавлен");
@@ -278,7 +278,7 @@ namespace deposit_app.DataBase
 				finally
 				{
                     connection.Close();
-					_logger.Info($"Добавлен новый клиент {client.first_name}, {client.email}");
+					_logger.Info($"Добавлен новый клиент {client.FirstName}, {client.Email}");
 				}
             }
         }
@@ -417,14 +417,14 @@ namespace deposit_app.DataBase
 																		  "@email::varchar, " +
 																		  "@passport_data::varchar)", connection))
 					{
-						command.Parameters.AddWithValue("client_id", client.id);
-						command.Parameters.AddWithValue("surname", client.surname);
-						command.Parameters.AddWithValue("firstname", client.first_name);
-						command.Parameters.AddWithValue("patronymic", client.patronymic);
-						command.Parameters.AddWithValue("birth_date", $"{client.birth_date.Year}-{client.birth_date.Month}-{client.birth_date.Day}");
-						command.Parameters.AddWithValue("phone", client.phone);
-						command.Parameters.AddWithValue("email", client.email);
-						command.Parameters.AddWithValue("passport_data", client.passport_data);
+						command.Parameters.AddWithValue("client_id", client.Id);
+						command.Parameters.AddWithValue("surname", client.Surname);
+						command.Parameters.AddWithValue("firstname", client.FirstName);
+						command.Parameters.AddWithValue("patronymic", client.Patronymic);
+						command.Parameters.AddWithValue("birth_date", $"{client.BirthDate.Year}-{client.BirthDate.Month}-{client.BirthDate.Day}");
+						command.Parameters.AddWithValue("phone", client.Phone);
+						command.Parameters.AddWithValue("email", client.Email);
+						command.Parameters.AddWithValue("passport_data", client.PassportData);
 
 						command.ExecuteNonQuery();
 						MessageBox.Show("Клиент успешно изменён");

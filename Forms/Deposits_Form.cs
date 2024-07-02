@@ -37,14 +37,14 @@ namespace deposit_app.Forms
             clientsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             var clients = Db.GetClients();
             clientsDataGridView.DataSource = clients;
-            clientsDataGridView.Columns["id"].Visible = false;
-            clientsDataGridView.Columns["surname"].HeaderText = "Фамилия";
-            clientsDataGridView.Columns["first_name"].HeaderText = "Имя";
-            clientsDataGridView.Columns["patronymic"].HeaderText = "Отчество";
-            clientsDataGridView.Columns["birth_date"].HeaderText = "Дата рожд.";
-            clientsDataGridView.Columns["phone"].HeaderText = "Телефон";
-            clientsDataGridView.Columns["email"].HeaderText = "Почта";
-            clientsDataGridView.Columns["passport_data"].HeaderText = "Паспорт";
+            clientsDataGridView.Columns["Id"].Visible = false;
+            clientsDataGridView.Columns["Surname"].HeaderText = "Фамилия";
+            clientsDataGridView.Columns["FirstName"].HeaderText = "Имя";
+            clientsDataGridView.Columns["Patronymic"].HeaderText = "Отчество";
+            clientsDataGridView.Columns["BirthDate"].HeaderText = "Дата рожд.";
+            clientsDataGridView.Columns["Phone"].HeaderText = "Телефон";
+            clientsDataGridView.Columns["Email"].HeaderText = "Почта";
+            clientsDataGridView.Columns["PassportData"].HeaderText = "Паспорт";
         }
 
 		private void ViewDepositsButton_Click(object sender, System.EventArgs e)
@@ -61,17 +61,17 @@ namespace deposit_app.Forms
 			{
 				var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
 				clientDepositsDataGridView.DataSource = clientDeposits;
-				clientDepositsDataGridView.Columns["id"].Visible = false;
-				clientDepositsDataGridView.Columns["client_id"].Visible = false;
-                clientDepositsDataGridView.Columns["deposit_type"].HeaderText = "Тип_вклада";
-                clientDepositsDataGridView.Columns["currency"].HeaderText = "Валюта";
-                clientDepositsDataGridView.Columns["status"].HeaderText = "Статус";
-                clientDepositsDataGridView.Columns["personal_account"].HeaderText = "Лицевой_счет";
-                clientDepositsDataGridView.Columns["initial_balance"].HeaderText = "Начальный_баланс";
-                clientDepositsDataGridView.Columns["curr_balance"].HeaderText = "Текущий_баланс";
-                clientDepositsDataGridView.Columns["open_date"].HeaderText = "Дата_открытия";
-                clientDepositsDataGridView.Columns["close_date"].HeaderText = "Дата_закрытия";
-                clientDepositsDataGridView.Columns["timeframe"].HeaderText = "Срок";
+				clientDepositsDataGridView.Columns["Id"].Visible = false;
+				clientDepositsDataGridView.Columns["ClientId"].Visible = false;
+                clientDepositsDataGridView.Columns["DepositType"].HeaderText = "Тип_вклада";
+                clientDepositsDataGridView.Columns["Currency"].HeaderText = "Валюта";
+                clientDepositsDataGridView.Columns["Status"].HeaderText = "Статус";
+                clientDepositsDataGridView.Columns["PersonalAccount"].HeaderText = "Лицевой_счет";
+                clientDepositsDataGridView.Columns["InitialBalance"].HeaderText = "Начальный_баланс";
+                clientDepositsDataGridView.Columns["CurrBalance"].HeaderText = "Текущий_баланс";
+                clientDepositsDataGridView.Columns["OpenDate"].HeaderText = "Дата_открытия";
+                clientDepositsDataGridView.Columns["CloseDate"].HeaderText = "Дата_закрытия";
+                clientDepositsDataGridView.Columns["TimeFrame"].HeaderText = "Срок";
             }
 		}
 
@@ -140,18 +140,18 @@ namespace deposit_app.Forms
 			{
 				var clientDeposits = Db.GetDepositsByClientPassportData(clientPassportData);
 				clientDepositsDataGridView.DataSource = clientDeposits;
-				clientDepositsDataGridView.Columns["id"].Visible = false;
-				clientDepositsDataGridView.Columns["client_id"].Visible = false;
-                clientDepositsDataGridView.Columns["deposit_type"].HeaderText = "Тип_вклада";
-                clientDepositsDataGridView.Columns["currency"].HeaderText = "Валюта";
-                clientDepositsDataGridView.Columns["status"].HeaderText = "Статус";
-                clientDepositsDataGridView.Columns["personal_account"].HeaderText = "Лицевой_счет";
-                clientDepositsDataGridView.Columns["initial_balance"].HeaderText = "Начальный_баланс";
-                clientDepositsDataGridView.Columns["curr_balance"].HeaderText = "Текущий_баланс";
-                clientDepositsDataGridView.Columns["open_date"].HeaderText = "Дата_открытия";
-                clientDepositsDataGridView.Columns["close_date"].HeaderText = "Дата_закрытия";
-                clientDepositsDataGridView.Columns["timeframe"].HeaderText = "Срок";	
-        	}
+                clientDepositsDataGridView.Columns["Id"].Visible = false;
+                clientDepositsDataGridView.Columns["ClientId"].Visible = false;
+                clientDepositsDataGridView.Columns["DepositType"].HeaderText = "Тип_вклада";
+                clientDepositsDataGridView.Columns["Currency"].HeaderText = "Валюта";
+                clientDepositsDataGridView.Columns["Status"].HeaderText = "Статус";
+                clientDepositsDataGridView.Columns["PersonalAccount"].HeaderText = "Лицевой_счет";
+                clientDepositsDataGridView.Columns["InitialBalance"].HeaderText = "Начальный_баланс";
+                clientDepositsDataGridView.Columns["CurrBalance"].HeaderText = "Текущий_баланс";
+                clientDepositsDataGridView.Columns["OpenDate"].HeaderText = "Дата_открытия";
+                clientDepositsDataGridView.Columns["CloseDate"].HeaderText = "Дата_закрытия";
+                clientDepositsDataGridView.Columns["TimeFrame"].HeaderText = "Срок";
+            }
 		}
 
 
@@ -159,15 +159,15 @@ namespace deposit_app.Forms
 		{
 			var clients = Db.GetClients();
 			clientsDataGridView.DataSource = clients;
-			clientsDataGridView.Columns["id"].Visible = false;
-			clientsDataGridView.Columns["surname"].HeaderText = "Фамилия";
-			clientsDataGridView.Columns["first_name"].HeaderText = "Имя";
-			clientsDataGridView.Columns["patronymic"].HeaderText = "Отчество";
-			clientsDataGridView.Columns["birth_date"].HeaderText = "Дата рожд.";
-			clientsDataGridView.Columns["phone"].HeaderText = "Телефон";
-			clientsDataGridView.Columns["email"].HeaderText = "Почта";
-			clientsDataGridView.Columns["passport_data"].HeaderText = "Паспорт";
-		}
+            clientsDataGridView.Columns["Id"].Visible = false;
+            clientsDataGridView.Columns["Surname"].HeaderText = "Фамилия";
+            clientsDataGridView.Columns["FirstName"].HeaderText = "Имя";
+            clientsDataGridView.Columns["Patronymic"].HeaderText = "Отчество";
+            clientsDataGridView.Columns["BirthDate"].HeaderText = "Дата рожд.";
+            clientsDataGridView.Columns["Phone"].HeaderText = "Телефон";
+            clientsDataGridView.Columns["Email"].HeaderText = "Почта";
+            clientsDataGridView.Columns["PassportData"].HeaderText = "Паспорт";
+        }
 
 		private void AddClientButton_Click(object sender, EventArgs e)
 		{
@@ -264,13 +264,13 @@ namespace deposit_app.Forms
 					
 					_editClientForm = new EditClient_Form();
 					DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
-					_editClientForm.Surname_textBox.Text = selectRow.Cells["surname"].Value.ToString();
-					_editClientForm.firstname_textBox.Text = selectRow.Cells["first_name"].Value.ToString();
-					_editClientForm.patronymic_textBox.Text = selectRow.Cells["patronymic"].Value.ToString();
-					_editClientForm.BirthDay_dateTimePicker.Text = selectRow.Cells["birth_date"].Value.ToString();
-					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["phone"].Value.ToString();
-					_editClientForm.email_textBox.Text = selectRow.Cells["email"].Value.ToString();
-					_editClientForm._passportData_textBox.Text = selectRow.Cells["passport_data"].Value.ToString();
+					_editClientForm.Surname_textBox.Text = selectRow.Cells["Surname"].Value.ToString();
+					_editClientForm.firstname_textBox.Text = selectRow.Cells["FirstName"].Value.ToString();
+					_editClientForm.patronymic_textBox.Text = selectRow.Cells["Patronymic"].Value.ToString();
+					_editClientForm.BirthDay_dateTimePicker.Text = selectRow.Cells["BirthDate"].Value.ToString();
+					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["Phone"].Value.ToString();
+					_editClientForm.email_textBox.Text = selectRow.Cells["Email"].Value.ToString();
+					_editClientForm._passportData_textBox.Text = selectRow.Cells["PassportData"].Value.ToString();
 					_editClientForm.ClientEdit += FormEditClient_ClientEdit;
 					_editClientForm.Show();
 				}

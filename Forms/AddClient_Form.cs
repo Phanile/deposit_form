@@ -102,13 +102,13 @@ namespace deposit_app.Forms
 			{
                 var client = new Client
                 {
-                    surname = surname,
-                    first_name = firstname,
-                    patronymic = patronymic,
-                    birth_date = birthDate,
-                    phone = phone,
-                    email = email,
-                    passport_data = passportData
+                    Surname = surname,
+                    FirstName = firstname,
+                    Patronymic = patronymic,
+                    BirthDate = birthDate,
+                    Phone = phone,
+                    Email = email,
+                    PassportData = passportData
                 };
 
                 Db.AddClient(client);
