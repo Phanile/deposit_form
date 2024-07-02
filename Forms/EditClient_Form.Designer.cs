@@ -145,7 +145,6 @@
 			phone_maskedTextBox.Name = "phone_maskedTextBox";
 			phone_maskedTextBox.Size = new Size(232, 23);
 			phone_maskedTextBox.TabIndex = 30;
-			phone_maskedTextBox.MaskInputRejected += phone_maskedTextBox_MaskInputRejected;
 			phone_maskedTextBox.MouseClick += phone_maskedTextBox_MouseClick_1;
 			// 
 			// label7

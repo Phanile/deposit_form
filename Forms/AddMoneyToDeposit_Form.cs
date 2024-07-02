@@ -6,11 +6,14 @@ namespace deposit_app.Forms
 	{
 		private string _depositId;
 		private decimal _maxBalance;
-		public AddMoneyToDeposit_Form(string depositId, decimal maxBalance)
+		private DataGridViewCell _cellToUpdate;
+
+		public AddMoneyToDeposit_Form(string depositId, decimal maxBalance, DataGridViewCell cellToUpdate)
 		{
 			InitializeComponent();
 			_depositId = depositId;
 			_maxBalance = maxBalance;
+			_cellToUpdate = cellToUpdate;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -38,6 +41,7 @@ namespace deposit_app.Forms
 				if (result > 0)
 				{
 					Db.AddMoneyToDeposit(_depositId, result);
+					_cellToUpdate.Value = decimal.Parse(_cellToUpdate.Value.ToString()) + result;
 					Close();
 				}
 			}

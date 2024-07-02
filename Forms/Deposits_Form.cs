@@ -77,9 +77,20 @@ namespace deposit_app.Forms
 
 		private void AddDepositButton_Click(object sender, System.EventArgs e)
 		{
+			string? email;
+
+			if (clientsDataGridView.SelectedRows.Count > 0)
+			{
+				email = clientsDataGridView.SelectedRows[0]?.Cells[6]?.Value?.ToString();
+			}
+			else
+			{
+				email = null;
+			}
+
 			if (_form == null || _form.IsDisposed)
 			{
-				_form = new AddDeposit_Form();
+				_form = new AddDeposit_Form(email);
 				_form.Show();
 			}
 			else
@@ -96,6 +107,19 @@ namespace deposit_app.Forms
 			panel2.Visible = true;
 			var histories = Db.GetTransactionHistories();
 			transactionHistoryGridView.DataSource = histories;
+			NormalizeViewOfHistoryTable();
+		}
+
+		private void NormalizeViewOfHistoryTable()
+		{
+			transactionHistoryGridView.Columns["Id"].Visible = false;
+			transactionHistoryGridView.Columns["TransactionType"].Visible = false;
+			transactionHistoryGridView.Columns["DepositId"].HeaderText = "Айди вклада";
+			transactionHistoryGridView.Columns["TransactionTypeNamed"].HeaderText = "Тип транзакции";
+			transactionHistoryGridView.Columns["DateTime"].HeaderText = "Время транзакции";
+			transactionHistoryGridView.Columns["Amount"].HeaderText = "Кол-во";
+			transactionHistoryGridView.Columns["AmountBefore"].HeaderText = "Баланс до";
+			transactionHistoryGridView.Columns["AmountAfter"].HeaderText = "Баланс после";
 		}
 
 		private void CloseDeposit_Click(object sender, System.EventArgs e)
@@ -234,6 +258,7 @@ namespace deposit_app.Forms
 			{
 				panel2.Visible = true;
 				var histories = Db.GetTransactionHistoriesByDepositId(depositId);
+				NormalizeViewOfHistoryTable();
 
 				if (histories.Count > 0)
 				{
@@ -261,7 +286,6 @@ namespace deposit_app.Forms
 				
 				if (_editClientForm == null || _editClientForm.IsDisposed)
 				{
-					
 					_editClientForm = new EditClient_Form();
 					DataGridViewRow selectRow = clientsDataGridView.SelectedRows[0];
 					_editClientForm.Surname_textBox.Text = selectRow.Cells["Surname"].Value.ToString();
@@ -293,13 +317,13 @@ namespace deposit_app.Forms
 				return;
 			}
 
-			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4]?.Value?.ToString() == DepositStatusConstants.DepositCloseStatus)
 			{
 				MessageBox.Show("Ошибка! Вклад уже закрыт");
 				return;
 			}
 
-			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4]?.Value?.ToString() == DepositStatusConstants.DepositFreezeStatus)
 			{
 				MessageBox.Show("Ошибка! Вклад заморожен");
 				return;
@@ -322,7 +346,7 @@ namespace deposit_app.Forms
 
 			if (_addMoneyForm == null || _addMoneyForm.IsDisposed)
 			{
-				_addMoneyForm = new AddMoneyToDeposit_Form(depositId, depositType.MaxBalance);
+				_addMoneyForm = new AddMoneyToDeposit_Form(depositId, depositType.MaxBalance, clientDepositsDataGridView.SelectedRows[0].Cells[7]);
 				_addMoneyForm.Show();
 			}
 			else
@@ -342,13 +366,13 @@ namespace deposit_app.Forms
 				return;
 			}
 
-			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositCloseStatus)
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4]?.Value?.ToString() == DepositStatusConstants.DepositCloseStatus)
 			{
 				MessageBox.Show("Ошибка! Вклад уже закрыт");
 				return;
 			}
 
-			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4].Value.ToString() == DepositStatusConstants.DepositFreezeStatus)
+			if (clientDepositsDataGridView.SelectedRows[0]?.Cells[4]?.Value?.ToString() == DepositStatusConstants.DepositFreezeStatus)
 			{
 				MessageBox.Show("Ошибка! Вклад заморожен");
 				return;
@@ -371,7 +395,7 @@ namespace deposit_app.Forms
 
 			if (_takeMoneyForm == null || _takeMoneyForm.IsDisposed)
 			{
-				_takeMoneyForm = new TakeMoneyForm(depositId);
+				_takeMoneyForm = new TakeMoneyForm(depositId, clientDepositsDataGridView.SelectedRows[0].Cells[7]);
 				_takeMoneyForm.Show();
 			}
 			else

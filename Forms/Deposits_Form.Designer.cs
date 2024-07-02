@@ -200,12 +200,14 @@
 			// 
 			// transactionHistoryGridView
 			// 
-			transactionHistoryGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			transactionHistoryGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+			transactionHistoryGridView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedHeaders;
 			transactionHistoryGridView.Location = new Point(51, 210);
 			transactionHistoryGridView.Name = "transactionHistoryGridView";
 			transactionHistoryGridView.ReadOnly = true;
-			transactionHistoryGridView.RowHeadersWidth = 51;
-			transactionHistoryGridView.Size = new Size(796, 244);
+			transactionHistoryGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			transactionHistoryGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+			transactionHistoryGridView.Size = new Size(737, 244);
 			transactionHistoryGridView.TabIndex = 0;
 			// 
 			// label2

@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using deposit_app.Const;
 using deposit_app.Entities;
 using Npgsql;
 
@@ -100,20 +101,20 @@ namespace deposit_app.DataBase
                     NpgsqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        transactionHistories.Add(
-                            new TransactionHistory
-                            {
-                                Id = (Guid)reader["Id"],
-                                DepositId = (Guid)reader["deposit_id"],
-                                TransactionType = (Guid)reader["type"],
-                                DateTime = (DateTime)reader["datetime"],
-                                Amount = (decimal)reader["amount"],
-                                AmountBefore = (decimal)reader["amount_before"],
-                                AmountAfter = (decimal)reader["amount_after"]
-                            }
-                        );
+						var history = new TransactionHistory
+						{
+							Id = (Guid)reader["Id"],
+							DepositId = (Guid)reader["deposit_id"],
+							TransactionType = (Guid)reader["type"],
+							DateTime = (DateTime)reader["datetime"],
+							Amount = (decimal)reader["amount"],
+							AmountBefore = (decimal)reader["amount_before"],
+							AmountAfter = (decimal)reader["amount_after"]
+						};
 
-                    }
+						history.TransactionTypeNamed = TransactionTypeConstants.GetTransactionTypeNameById(history.TransactionType);
+						transactionHistories.Add(history);
+					}
                 }
 			}
 			return transactionHistories;
@@ -131,19 +132,19 @@ namespace deposit_app.DataBase
 					NpgsqlDataReader reader = cmd.ExecuteReader();
 					while (reader.Read())
 					{
-						transactionHistories.Add(
-							new TransactionHistory
-							{
-								Id = (Guid)reader["Id"],
-								DepositId = (Guid)reader["deposit_id"],
-								TransactionType = (Guid)reader["type"],
-								DateTime = (DateTime)reader["datetime"],
-								Amount = (decimal)reader["amount"],
-								AmountBefore = (decimal)reader["amount_before"],
-								AmountAfter = (decimal)reader["amount_after"]
-							}
-						);
+						var history = new TransactionHistory
+						{
+							Id = (Guid)reader["Id"],
+							DepositId = (Guid)reader["deposit_id"],
+							TransactionType = (Guid)reader["type"],
+							DateTime = (DateTime)reader["datetime"],
+							Amount = (decimal)reader["amount"],
+							AmountBefore = (decimal)reader["amount_before"],
+							AmountAfter = (decimal)reader["amount_after"]
+						};
 
+						history.TransactionTypeNamed = TransactionTypeConstants.GetTransactionTypeNameById(history.TransactionType);
+						transactionHistories.Add(history);
 					}
 				}
 			}

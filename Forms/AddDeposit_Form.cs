@@ -5,9 +5,12 @@ namespace deposit_app.Forms
 {
 	public partial class AddDeposit_Form : Form
 	{
-		public AddDeposit_Form()
+		private string? _email;
+		public AddDeposit_Form(string? email)
 		{
 			InitializeComponent();
+			_email = email;
+			email_textBox.Text = _email;
 		}
 
 		private void SaveChange_btn_Click(object sender, EventArgs e)

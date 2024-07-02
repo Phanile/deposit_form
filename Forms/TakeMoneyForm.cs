@@ -5,10 +5,13 @@ namespace deposit_app.Forms
 	public partial class TakeMoneyForm : Form
 	{
 		private string _depositId;
-		public TakeMoneyForm(string depositId)
+		private DataGridViewCell _cellToUpdate;
+
+		public TakeMoneyForm(string depositId, DataGridViewCell cellToUpdate)
 		{
 			InitializeComponent();
 			_depositId = depositId;
+			_cellToUpdate = cellToUpdate;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -30,6 +33,7 @@ namespace deposit_app.Forms
 				if (result > 0)
 				{
 					Db.TakeMoneyFromDeposit(_depositId, result);
+					_cellToUpdate.Value = decimal.Parse(_cellToUpdate.Value.ToString()) - result;
 					Close();
 				}
 			}
