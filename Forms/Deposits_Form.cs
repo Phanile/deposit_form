@@ -268,7 +268,7 @@ namespace deposit_app.Forms
 					_editClientForm.firstname_textBox.Text = selectRow.Cells["FirstName"].Value.ToString();
 					_editClientForm.patronymic_textBox.Text = selectRow.Cells["Patronymic"].Value.ToString();
 					_editClientForm.BirthDay_dateTimePicker.Text = selectRow.Cells["BirthDate"].Value.ToString();
-					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["Phone"].Value.ToString();
+					_editClientForm.phone_maskedTextBox.Text = selectRow.Cells["Phone"].Value.ToString().Substring(2, selectRow.Cells["Phone"].Value.ToString().Length - 2);
 					_editClientForm.email_textBox.Text = selectRow.Cells["Email"].Value.ToString();
 					_editClientForm._passportData_textBox.Text = selectRow.Cells["PassportData"].Value.ToString();
 					_editClientForm.ClientEdit += FormEditClient_ClientEdit;
