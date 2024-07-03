@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace deposit_app.Const
+﻿namespace deposit_app.Const
 {
-    internal class CurrenciesConstants
+	public class CurrenciesConstants
     {
         public const string RUB = "Российский рубль";
         public const string EUR = "Евро";

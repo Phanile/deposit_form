@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using deposit_app.Const;
 using deposit_app.Entities;
 using Npgsql;
 
@@ -100,20 +101,20 @@ namespace deposit_app.DataBase
                     NpgsqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        transactionHistories.Add(
-                            new TransactionHistory
-                            {
-                                Id = (Guid)reader["Id"],
-                                DepositId = (Guid)reader["deposit_id"],
-                                TransactionType = (Guid)reader["type"],
-                                DateTime = (DateTime)reader["datetime"],
-                                Amount = (decimal)reader["amount"],
-                                AmountBefore = (decimal)reader["amount_before"],
-                                AmountAfter = (decimal)reader["amount_after"]
-                            }
-                        );
+						var history = new TransactionHistory
+						{
+							Id = (Guid)reader["Id"],
+							DepositId = (Guid)reader["deposit_id"],
+							TransactionType = (Guid)reader["type"],
+							DateTime = (DateTime)reader["datetime"],
+							Amount = (decimal)reader["amount"],
+							AmountBefore = (decimal)reader["amount_before"],
+							AmountAfter = (decimal)reader["amount_after"]
+						};
 
-                    }
+						history.TransactionTypeNamed = TransactionTypeConstants.GetTransactionTypeNameById(history.TransactionType);
+						transactionHistories.Add(history);
+					}
                 }
 			}
 			return transactionHistories;
@@ -131,23 +132,43 @@ namespace deposit_app.DataBase
 					NpgsqlDataReader reader = cmd.ExecuteReader();
 					while (reader.Read())
 					{
-						transactionHistories.Add(
-							new TransactionHistory
-							{
-								Id = (Guid)reader["Id"],
-								DepositId = (Guid)reader["deposit_id"],
-								TransactionType = (Guid)reader["type"],
-								DateTime = (DateTime)reader["datetime"],
-								Amount = (decimal)reader["amount"],
-								AmountBefore = (decimal)reader["amount_before"],
-								AmountAfter = (decimal)reader["amount_after"]
-							}
-						);
+						var history = new TransactionHistory
+						{
+							Id = (Guid)reader["Id"],
+							DepositId = (Guid)reader["deposit_id"],
+							TransactionType = (Guid)reader["type"],
+							DateTime = (DateTime)reader["datetime"],
+							Amount = (decimal)reader["amount"],
+							AmountBefore = (decimal)reader["amount_before"],
+							AmountAfter = (decimal)reader["amount_after"]
+						};
 
+						history.TransactionTypeNamed = TransactionTypeConstants.GetTransactionTypeNameById(history.TransactionType);
+						transactionHistories.Add(history);
 					}
 				}
 			}
 			return transactionHistories;
+		}
+
+		public static decimal GetDepositBalanceByDepositId(string depositId)
+		{
+			string command = $"select curr_balance from deposits where id = '{depositId}'";
+			using (var connection = new NpgsqlConnection(_connectionString))
+			{
+				using (var cmd = new NpgsqlCommand(command, connection))
+				{
+					connection.Open();
+					var balance = (decimal)cmd.ExecuteScalar();
+
+					if (balance != null)
+					{
+						return balance;
+					}
+
+					return 0;
+				}
+			}
 		}
 
 		public static void CloseDeposit(string personal_account)
@@ -184,7 +205,6 @@ namespace deposit_app.DataBase
 				{
 					connection.Open();
 
-					// Проверка наличия пользователя с таким email
 					using (var checkUserCommand = new NpgsqlCommand("SELECT COUNT(*) FROM clients WHERE email = @mail", connection))
 					{
 						checkUserCommand.Parameters.AddWithValue("mail", email);
@@ -197,7 +217,6 @@ namespace deposit_app.DataBase
 						}
 					}
 
-					// Если пользователь найден, добавляем депозит
 					using (var command = new NpgsqlCommand("CALL insert_deposit(@mail::varchar, @deposit_type_name::varchar, @currency_name::varchar, @status_info::varchar, @_personal_account::varchar, @_initial_balance::decimal(9,2), @_curr_balance::decimal(9,2), @_open_date::date, @_close_date::date, @_timeframe::smallint)", connection))
 					{
 						command.Parameters.AddWithValue("mail", email);

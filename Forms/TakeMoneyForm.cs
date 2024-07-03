@@ -5,10 +5,15 @@ namespace deposit_app.Forms
 	public partial class TakeMoneyForm : Form
 	{
 		private string _depositId;
-		public TakeMoneyForm(string depositId)
+		private DataGridViewCell _cellToUpdate;
+		private decimal _balance;
+
+		public TakeMoneyForm(string depositId, decimal balance, DataGridViewCell cellToUpdate)
 		{
 			InitializeComponent();
 			_depositId = depositId;
+			_cellToUpdate = cellToUpdate;
+			_balance = balance;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -27,9 +32,16 @@ namespace deposit_app.Forms
 					return;
 				}
 
+				if (_balance - result < 0)
+				{
+					MessageBox.Show("Недостаточно средств на балансе");
+					return;
+				}
+
 				if (result > 0)
 				{
 					Db.TakeMoneyFromDeposit(_depositId, result);
+					_cellToUpdate.Value = decimal.Parse(_cellToUpdate.Value.ToString()) - result;
 					Close();
 				}
 			}
