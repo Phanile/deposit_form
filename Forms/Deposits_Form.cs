@@ -258,13 +258,13 @@ namespace deposit_app.Forms
 			{
 				panel2.Visible = true;
 				var histories = Db.GetTransactionHistoriesByDepositId(depositId);
-				NormalizeViewOfHistoryTable();
 
 				if (histories.Count > 0)
 				{
 					textBox1.Visible = false;
 					transactionHistoryGridView.Visible = true;
 					transactionHistoryGridView.DataSource = histories;
+					NormalizeViewOfHistoryTable();
 				}
 				else
 				{
