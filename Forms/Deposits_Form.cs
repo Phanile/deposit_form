@@ -379,6 +379,7 @@ namespace deposit_app.Forms
 			}
 
 			var depositType = Db.GetDepositTypeByDepositId(depositId);
+			var depositBalance = Db.GetDepositBalanceByDepositId(depositId);
 
 			if (depositType == null)
 			{
@@ -395,7 +396,7 @@ namespace deposit_app.Forms
 
 			if (_takeMoneyForm == null || _takeMoneyForm.IsDisposed)
 			{
-				_takeMoneyForm = new TakeMoneyForm(depositId, clientDepositsDataGridView.SelectedRows[0].Cells[7]);
+				_takeMoneyForm = new TakeMoneyForm(depositId, depositBalance, clientDepositsDataGridView.SelectedRows[0].Cells[7]);
 				_takeMoneyForm.Show();
 			}
 			else

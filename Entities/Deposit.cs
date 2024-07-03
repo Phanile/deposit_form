@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace deposit_app.Entities
+﻿namespace deposit_app.Entities
 {
-    internal class Deposit
+	internal class Deposit
     {
         public Guid Id { get; set; }
         public Guid ClientId { get; set; }

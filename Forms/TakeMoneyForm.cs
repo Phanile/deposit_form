@@ -6,12 +6,14 @@ namespace deposit_app.Forms
 	{
 		private string _depositId;
 		private DataGridViewCell _cellToUpdate;
+		private decimal _balance;
 
-		public TakeMoneyForm(string depositId, DataGridViewCell cellToUpdate)
+		public TakeMoneyForm(string depositId, decimal balance, DataGridViewCell cellToUpdate)
 		{
 			InitializeComponent();
 			_depositId = depositId;
 			_cellToUpdate = cellToUpdate;
+			_balance = balance;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -27,6 +29,12 @@ namespace deposit_app.Forms
 				if (result < 0)
 				{
 					MessageBox.Show("Сумма снятия не может быть отрицательной");
+					return;
+				}
+
+				if (_balance - result < 0)
+				{
+					MessageBox.Show("Недостаточно средств на балансе");
 					return;
 				}
 
