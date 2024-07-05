@@ -2,7 +2,7 @@
 
 namespace deposit_app.Entities
 {
-    internal class Client
+    public class Client
     {
         public Guid Id {  get; set; }
         public string Surname {  get; set; }

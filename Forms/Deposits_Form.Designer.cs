@@ -29,8 +29,8 @@
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
-			DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-			DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 			label1 = new Label();
 			ViewDepositsButton = new Button();
 			AddDepositButton = new Button();
@@ -47,6 +47,7 @@
 			label2 = new Label();
 			label3 = new Label();
 			contextMenuStrip2 = new ContextMenuStrip(components);
+			AddClientFromXML_btn = new Button();
 			((System.ComponentModel.ISupportInitialize)clientsDataGridView).BeginInit();
 			((System.ComponentModel.ISupportInitialize)clientDepositsDataGridView).BeginInit();
 			panel1.SuspendLayout();
@@ -102,7 +103,7 @@
 			AddClient.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
 			AddClient.Location = new Point(682, 56);
 			AddClient.Name = "AddClient";
-			AddClient.Size = new Size(165, 67);
+			AddClient.Size = new Size(165, 32);
 			AddClient.TabIndex = 4;
 			AddClient.Text = "Добавить клиента";
 			AddClient.UseVisualStyleBackColor = true;
@@ -110,14 +111,14 @@
 			// 
 			// clientsDataGridView
 			// 
-			dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = SystemColors.ActiveBorder;
-			dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-			clientsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = SystemColors.ActiveBorder;
+			dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+			clientsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
 			clientsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			clientsDataGridView.EnableHeadersVisualStyles = false;
 			clientsDataGridView.Location = new Point(10, 150);
@@ -132,14 +133,14 @@
 			// 
 			// clientDepositsDataGridView
 			// 
-			dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle4.BackColor = SystemColors.ActiveBorder;
-			dataGridViewCellStyle4.Font = new Font("Segoe UI", 9F);
-			dataGridViewCellStyle4.ForeColor = SystemColors.WindowText;
-			dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
-			dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-			dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-			clientDepositsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = SystemColors.ActiveBorder;
+			dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+			dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+			dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+			clientDepositsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			clientDepositsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			clientDepositsDataGridView.EnableHeadersVisualStyles = false;
 			clientDepositsDataGridView.Location = new Point(10, 374);
@@ -236,6 +237,16 @@
 			contextMenuStrip2.Name = "contextMenuStrip2";
 			contextMenuStrip2.Size = new Size(61, 4);
 			// 
+			// AddClientFromXML_btn
+			// 
+			AddClientFromXML_btn.Location = new Point(682, 93);
+			AddClientFromXML_btn.Name = "AddClientFromXML_btn";
+			AddClientFromXML_btn.Size = new Size(165, 30);
+			AddClientFromXML_btn.TabIndex = 10;
+			AddClientFromXML_btn.Text = "Добавить из XML";
+			AddClientFromXML_btn.UseVisualStyleBackColor = true;
+			AddClientFromXML_btn.Click += AddClientFromXML_btn_Click;
+			// 
 			// Deposits_Form
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
@@ -251,6 +262,7 @@
 			Controls.Add(DepositHistoryButton);
 			Controls.Add(AddDepositButton);
 			Controls.Add(ViewDepositsButton);
+			Controls.Add(AddClientFromXML_btn);
 			Name = "Deposits_Form";
 			Text = "Deposits_Form";
 			Load += Deposits_Form_Load;
@@ -284,5 +296,6 @@
 		private ContextMenuStrip contextMenuStrip1;
         private TextBox textBox1;
 		private ContextMenuStrip contextMenuStrip2;
+		private Button AddClientFromXML_btn;
 	}
 }

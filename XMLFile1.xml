@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Clients>
+	<Client>
+		<Surname>Иванов</Surname>
+		<FirstName>Иван</FirstName>
+		<Patronymic>Иванович</Patronymic>
+		<BirthDate>1980-01-01</BirthDate>
+		<Phone>+71234567890</Phone>
+		<Email>ivanov589@example.com</Email>
+		<PassportData>1234567790</PassportData>
+	</Client>
+	<Client>
+		<Surname>Петров</Surname>
+		<FirstName>Петр</FirstName>
+		<Patronymic>Семенович</Patronymic>
+		<BirthDate>1989-01-01</BirthDate>
+		<Phone>+71234567899</Phone>
+		<Email>petrov22589@mail.ru</Email>
+		<PassportData>1458467740</PassportData>
+	</Client>
+</Clients>
