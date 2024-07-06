@@ -181,7 +181,6 @@ namespace deposit_app.Forms
 			}
 		}
 
-
 		private void RedrawClients()
 		{
 			var clients = Db.GetClients();
@@ -216,6 +215,7 @@ namespace deposit_app.Forms
 		{
 			RedrawClients();
 		}
+
 		private void FormEditClient_ClientEdit(object sender, EventArgs e)
 		{
 			RedrawClients();
@@ -426,12 +426,8 @@ namespace deposit_app.Forms
 					}
 				}
 			}
-			
-			
-			
-			
-
 		}
+
 		private static List<Client> DeserializeFromXml(string filePath)
 		{
 			XmlSerializer serializer = new XmlSerializer(typeof(List<Client>), new XmlRootAttribute("Clients"));

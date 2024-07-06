@@ -112,6 +112,7 @@ namespace deposit_app.Forms
                 };
 
                 Db.AddClient(client);
+                MessageBox.Show("Клиент успешно добавлен");
                 OnClientAdded();
                 this.Close();
 				return;

@@ -287,7 +287,6 @@ namespace deposit_app.DataBase
                         command.Parameters.AddWithValue("passport_data", client.PassportData);
 
                         command.ExecuteNonQuery();
-                        MessageBox.Show("Клиент успешно добавлен");
                     }
                 }
                 catch (Exception ex)
