@@ -266,7 +266,7 @@ namespace deposit_app.DataBase
 
                         if (userCount)
                         {
-                            MessageBox.Show("Пользователь с такими данными(паспорт, телефон или почта) существует");
+                            MessageBox.Show($"Пользователь с такими данными({client.PassportData}, {client.Phone} {client.Email}) уже существует");
                             return false;
                         }
                     }
