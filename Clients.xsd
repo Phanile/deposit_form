@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="xsdClients" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Clients">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Client" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Surname" type="xs:string"/>
+              <xs:element name="FirstName" type="xs:string"/>
+              <xs:element name="Patronymic" type="xs:string"/>
+              <xs:element name="BirthDate" type="xs:date"/>
+              <xs:element name="Phone" type="xs:string"/>
+              <xs:element name="Email" type="xs:string"/>
+              <xs:element name="PassportData" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,11 +1,7 @@
 ﻿using deposit_app.DataBase;
 using deposit_app.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
@@ -13,25 +9,133 @@ namespace deposit_app.Services
 {
     internal class XmlService
     {
-        private void AddClientFromXML_btn_Click(object sender, EventArgs e)
+        static string xsdFile = "C:\\Users\\kolya\\OneDrive\\Рабочий стол\\Производственная практика\\Deposit\\Clients.xsd";
+        public static void AddClientFromXml(string path) 
         {
-            string? path;
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == DialogResult.OK || !string.IsNullOrWhiteSpace(openFileDialog.FileName))
+            var isValid = ValidateXml(path);
+            if (isValid)
             {
-                path = openFileDialog.FileName;
-
-                List<Client> clients = DeserializeFromXml(path);
-                if (clients.Count != 0)
+                var clients = DeserializeFromXml(path);
+                foreach (var client in clients)
                 {
-                    foreach (Client client in clients)
+                    if (IsClientValid(client, out List<string> errors))
                     {
                         Db.AddClient(client);
-                        //ValidationEventHandler eventHandler = new ValidationEventHandler(ValidationEventHandler);
-                        //document.Validate(eventHandler);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Errors (#{clients.IndexOf(client) + 1}) {string.Join("\n\n", errors)}");
+                        return;
                     }
                 }
             }
+        }
+
+        public static bool ValidateXml(string xmlFilePath)
+        {
+            string errorMessage = string.Empty;
+            var errors = new List<string>();
+
+            try
+            {
+                XmlSchemaSet schema = new XmlSchemaSet();
+                schema.Add("", xsdFile);
+
+                XmlReaderSettings settings = new XmlReaderSettings();
+                settings.ValidationType = ValidationType.Schema;
+                settings.Schemas = schema;
+                settings.ValidationEventHandler += (sender, e) =>
+                {
+                    errors.Add(e.Message);
+                };
+
+                using (XmlReader reader = XmlReader.Create(xmlFilePath, settings))
+                {
+                    while (reader.Read()) ;
+                }
+
+                if (errors.Count != 0)
+                {
+                    MessageBox.Show(string.Join("\n\n", errors));
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return false;
+            }
+        }
+
+        public static List<Client> ParseClientsFromXml(string xmlFilePath)
+        {
+            List<Client> clients = new List<Client>();
+
+            using (XmlReader reader = XmlReader.Create(xmlFilePath))
+            {
+                Client client = null;
+                while (reader.Read())
+                {
+                    if (reader.IsStartElement())
+                    {
+                        switch (reader.Name)
+                        {
+                            case "Client":
+                                client = new Client();
+                                break;
+                            case "Surname":
+                                if (reader.Read())
+                                {
+                                    client.Surname = reader.Value;
+                                }
+                                break;
+                            case "Firstname":
+                                if (reader.Read())
+                                {
+                                    client.FirstName = reader.Value;
+                                }
+                                break;
+                            case "Patronymic":
+                                if (reader.Read())
+                                {
+                                    client.Patronymic = reader.Value;
+                                }
+                                break;
+                            case "BirthDate":
+                                if (reader.Read())
+                                {
+                                    client.BirthDate = DateTime.Parse(reader.Value);
+                                }
+                                break;
+                            case "Phone":
+                                if (reader.Read())
+                                {
+                                    client.Phone = reader.Value;
+                                }
+                                break;
+                            case "Email":
+                                if (reader.Read())
+                                {
+                                    client.Email = reader.Value;
+                                }
+                                break;
+                            case "PassportData":
+                                if (reader.Read())
+                                {
+                                    client.PassportData = reader.Value;
+                                }
+                                break;
+                        }
+                    }
+                    else if (reader.Name == "Client")
+                    {
+                        clients.Add(client);
+                    }
+                }
+            }
+
+            return clients;
         }
 
         private static List<Client> DeserializeFromXml(string filePath)
@@ -43,11 +147,88 @@ namespace deposit_app.Services
             }
         }
 
-        public static void ValidationHandler(object sender, ValidationEventArgs args)
+        private static bool IsClientValid(Client client, out List<string> errors)
         {
-            Console.WriteLine("***Validation error");
-            Console.WriteLine("\tSeverity:{0}", args.Severity);
-            Console.WriteLine("\tMessage  :{0}", args.Message);
+            errors = new List<string>();
+
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            Regex emailRegex = new Regex(emailPattern, RegexOptions.IgnoreCase);
+
+            if (string.IsNullOrWhiteSpace(client.Surname))
+            {
+                errors.Add("Введите фамилию");
+            }
+
+            if (string.IsNullOrWhiteSpace(client.FirstName))
+            {
+                errors.Add("Введите Имя");
+            }
+
+            if (string.IsNullOrWhiteSpace(client.Patronymic))
+            {
+                errors.Add("Введите Отчество");
+            }
+
+            DateTime birthDate = DateTime.Now;
+            DateOnly date = DateOnly.FromDateTime(client.BirthDate);
+            var birthDateString = date.ToString().Split('.');
+            string day = birthDateString[0];
+            string month = birthDateString[1];
+            string year = birthDateString[2];
+            if (string.IsNullOrWhiteSpace(day) || string.IsNullOrWhiteSpace(month) || string.IsNullOrWhiteSpace(year))
+            {
+                errors.Add("Введите дату рождения");
+            }
+            else
+            {
+                DateTime.TryParse(client.BirthDate.ToString(), out birthDate);
+                int _day = int.Parse(day);
+                int _month = int.Parse(month);
+                int _year = int.Parse(year);
+                if (_month > 12)
+                {
+                    errors.Add("Месяц не может быль больше 12");
+                }
+                else if (_day > DateTime.DaysInMonth(_year, _month))
+                {
+                    errors.Add($"Дней в этом месяце не может быть больше {DateTime.DaysInMonth(_year, _month)}");
+                }
+                else if (birthDate > DateTime.Now)
+                {
+                    errors.Add("Дата рождения не может быть в будущем");
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(client.Phone) || !client.Phone.Contains("+7") || client.Phone.Length != 12)
+            {
+                errors.Add("Введите телефонный номер");
+            }
+
+            string email = client.Email;
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                errors.Add("Введите электронную почту");
+            }
+            else if (!emailRegex.IsMatch(email))
+            {
+                errors.Add("Неправильно введена электронная почта");
+            }
+
+            string passportData = client.PassportData;
+            if (string.IsNullOrWhiteSpace(passportData))
+            {
+                errors.Add("Введите паспортные данные");
+            }
+            else if (passportData.Length != 10)
+            {
+                errors.Add("Неправильно введены паспортные данные(10 символов)");
+            }
+
+            if (errors.Count == 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

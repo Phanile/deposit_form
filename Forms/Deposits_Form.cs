@@ -1,6 +1,7 @@
 ﻿using deposit_app.Const;
 using deposit_app.DataBase;
 using deposit_app.Entities;
+using deposit_app.Services;
 using System.Data;
 using System.Xml.Serialization;
 
@@ -416,24 +417,7 @@ namespace deposit_app.Forms
 			if (openFileDialog.ShowDialog() == DialogResult.OK || !string.IsNullOrWhiteSpace(openFileDialog.FileName))
 			{
 				path = openFileDialog.FileName;
-				
-				List<Client> clients = DeserializeFromXml(path);
-				if(clients.Count != 0)
-				{
-					foreach(Client client in clients)
-					{
-						Db.AddClient(client);
-					}
-				}
-			}
-		}
-
-		private static List<Client> DeserializeFromXml(string filePath)
-		{
-			XmlSerializer serializer = new XmlSerializer(typeof(List<Client>), new XmlRootAttribute("Clients"));
-			using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-			{
-				return (List<Client>)serializer.Deserialize(fileStream);
+                XmlService.AddClientFromXml(path);
 			}
 		}
 	}
