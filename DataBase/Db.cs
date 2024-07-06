@@ -2,6 +2,7 @@
 using deposit_app.Const;
 using deposit_app.Entities;
 using Npgsql;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace deposit_app.DataBase
 {
@@ -548,5 +549,31 @@ namespace deposit_app.DataBase
 				return depositType;
 			}
 		}
+	
+		public static void AddXmlFile(string path)
+		{
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                using (var command = new NpgsqlCommand("CALL insert_xml_file(@filename, @filepath)", connection))
+                {
+                    var filename = Path.GetFileName(path);
+                    command.Parameters.AddWithValue("filename", filename);
+                    command.Parameters.AddWithValue("filepath", path);
+                    try
+                    {
+                        connection.Open();
+                        var result = command.ExecuteScalar();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка: {ex.Message}");
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+        }
 	}
 }
