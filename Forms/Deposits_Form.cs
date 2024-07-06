@@ -417,7 +417,6 @@ namespace deposit_app.Forms
 			{
 				string path = openFileDialog.FileName;
                 XmlService.AddClientFromXml(path);
-                MessageBox.Show("Клиенты из файла успешно добавлены");
                 RedrawClients();
 			}
 		}

@@ -18,11 +18,13 @@ namespace deposit_app.Services
             if (isValid)
             {
                 var clients = DeserializeFromXml(path);
+                List<bool> clientsAdded = new List<bool>();
                 foreach (var client in clients)
                 {
                     if (IsClientValid(client, out List<string> errors))
                     {
-                        Db.AddClient(client);
+                        var added = Db.AddClient(client);
+						clientsAdded.Add(added);
                     }
                     else
                     {
@@ -30,7 +32,11 @@ namespace deposit_app.Services
                         return;
                     }
                 }
-                Db.AddXmlFile(path);
+                if (clientsAdded.Any(added => added))
+                {
+				    MessageBox.Show("Клиенты из файла успешно добавлены");
+				    Db.AddXmlFile(path);
+                }
             }
         }
 

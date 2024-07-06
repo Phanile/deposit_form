@@ -247,7 +247,7 @@ namespace deposit_app.DataBase
 			}
 		}
 
-        public static void AddClient(Client client)
+        public static bool AddClient(Client client)
         {
 
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -267,7 +267,7 @@ namespace deposit_app.DataBase
                         if (userCount)
                         {
                             MessageBox.Show("Пользователь с такими данными(паспорт, телефон или почта) существует");
-                            return;
+                            return false;
                         }
                     }
 
@@ -288,7 +288,7 @@ namespace deposit_app.DataBase
                         command.Parameters.AddWithValue("passport_data", client.PassportData);
 
                         command.ExecuteNonQuery();
-                    }
+					}
                 }
                 catch (Exception ex)
                 {
@@ -299,7 +299,8 @@ namespace deposit_app.DataBase
                     connection.Close();
 					_logger.Info($"Добавлен новый клиент {client.FirstName}, {client.Email}");
 				}
-            }
+				return true;
+			}
         }
 
         public static void AddMoneyToDeposit(string depositId, decimal value)
