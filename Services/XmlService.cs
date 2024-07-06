@@ -1,5 +1,6 @@
 ﻿using deposit_app.DataBase;
 using deposit_app.Entities;
+using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
@@ -9,8 +10,9 @@ namespace deposit_app.Services
 {
     internal class XmlService
     {
-        static string xsdFile = "C:\\Users\\kolya\\OneDrive\\Рабочий стол\\Производственная практика\\Deposit\\Clients.xsd";
-        public static void AddClientFromXml(string path) 
+        static string xsdFile = ConfigurationManager.AppSettings.Get("xsdSchemaPath");
+
+		public static void AddClientFromXml(string path) 
         {
             var isValid = ValidateXml(path);
             if (isValid)
@@ -66,76 +68,6 @@ namespace deposit_app.Services
                 errorMessage = ex.Message;
                 return false;
             }
-        }
-
-        public static List<Client> ParseClientsFromXml(string xmlFilePath)
-        {
-            List<Client> clients = new List<Client>();
-
-            using (XmlReader reader = XmlReader.Create(xmlFilePath))
-            {
-                Client client = null;
-                while (reader.Read())
-                {
-                    if (reader.IsStartElement())
-                    {
-                        switch (reader.Name)
-                        {
-                            case "Client":
-                                client = new Client();
-                                break;
-                            case "Surname":
-                                if (reader.Read())
-                                {
-                                    client.Surname = reader.Value;
-                                }
-                                break;
-                            case "Firstname":
-                                if (reader.Read())
-                                {
-                                    client.FirstName = reader.Value;
-                                }
-                                break;
-                            case "Patronymic":
-                                if (reader.Read())
-                                {
-                                    client.Patronymic = reader.Value;
-                                }
-                                break;
-                            case "BirthDate":
-                                if (reader.Read())
-                                {
-                                    client.BirthDate = DateTime.Parse(reader.Value);
-                                }
-                                break;
-                            case "Phone":
-                                if (reader.Read())
-                                {
-                                    client.Phone = reader.Value;
-                                }
-                                break;
-                            case "Email":
-                                if (reader.Read())
-                                {
-                                    client.Email = reader.Value;
-                                }
-                                break;
-                            case "PassportData":
-                                if (reader.Read())
-                                {
-                                    client.PassportData = reader.Value;
-                                }
-                                break;
-                        }
-                    }
-                    else if (reader.Name == "Client")
-                    {
-                        clients.Add(client);
-                    }
-                }
-            }
-
-            return clients;
         }
 
         private static List<Client> DeserializeFromXml(string filePath)

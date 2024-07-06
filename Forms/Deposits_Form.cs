@@ -412,11 +412,10 @@ namespace deposit_app.Forms
 
 		private void AddClientFromXML_btn_Click(object sender, EventArgs e)
 		{
-			string? path;
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			if (openFileDialog.ShowDialog() == DialogResult.OK || !string.IsNullOrWhiteSpace(openFileDialog.FileName))
 			{
-				path = openFileDialog.FileName;
+				string path = openFileDialog.FileName;
                 XmlService.AddClientFromXml(path);
 			}
 		}
